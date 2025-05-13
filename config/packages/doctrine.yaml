@@ -18,12 +18,79 @@ doctrine:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-            App:
+            Accueil:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Accueil/Entity'
+                prefix: 'App\Accueil\Entity'
+                alias: Accueil
+            Blocoperatoire:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Blocoperatoire/Entity'
+                prefix: 'App\Blocoperatoire\Entity'
+                alias: Blocoperatoire
+            Consultation:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Consultation/Entity'
+                prefix: 'App\Consultation\Entity'
+                alias: Consultation
+            Dispensaire:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Dispensaire/Entity'
+                prefix: 'App\Dispensaire\Entity'
+                alias: Dispensaire
+            Economat:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Economat/Entity'
+                prefix: 'App\Economat\Entity'
+                alias: Economat
+            Facturation:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Facturation/Entity'
+                prefix: 'App\Facturation\Entity'
+                alias: Facturation
+            Pharmaciedetails:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Pharmaciedetails/Entity'
+                prefix: 'App\Pharmaciedetails\Entity'
+                alias: Pharmaciedetails
+            Pharmaciegros:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Pharmaciegros/Entity'
+                prefix: 'App\Pharmaciegros\Entity'
+                alias: Pharmaciegros
+            Prisedesparametres:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Prisedesparametres/Entity'
+                prefix: 'App\Prisedesparametres\Entity'
+                alias: Prisedesparametres
+            Servicemedical:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Servicemedical/Entity'
+                prefix: 'App\Servicemedical\Entity'
+                alias: Servicemedical
+            Shared:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Entity'
+                prefix: 'App\Shared\Entity'
+                alias: Shared
+            Urgence:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Urgence/Entity'
+                prefix: 'App\Urgence\Entity'
+                alias: Urgence
+
         controller_resolver:
             auto_mapping: false
 
