@@ -3,3 +3,39 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+accueil_controllers:
+    resource: '../src/Accueil/Controller/'
+    type: attribute
+blocoperatoire_controllers:
+    resource: '../src/Blocoperatoire/Controller/'
+    type: attribute
+consultation_controllers:
+    resource: '../src/Consultation/Controller/'
+    type: attribute
+dispensaire_controllers:
+    resource: '../src/Dispensaire/Controller/'
+    type: attribute
+economat_controllers:
+    resource: '../src/Economat/Controller/'
+    type: attribute
+facturation_controllers:
+    resource: '../src/Facturation/Controller/'
+    type: attribute
+pharmaciedetails_controllers:
+    resource: '../src/Pharmaciedetails/Controller/'
+    type: attribute
+pharmaciegros_controllers:
+    resource: '../src/Pharmaciegros/Controller/'
+    type: attribute
+prisedesparametres_controllers:
+    resource: '../src/Prisedesparametres/Controller/'
+    type: attribute
+servicemedical_controllers:
+    resource: '../src/Servicemedical/Controller/'
+    type: attribute
+shared_controllers:
+    resource: '../src/Shared/Controller/'
+    type: attribute
+urgence_controllers:
+    resource: '../src/Urgence/Controller/'
+    type: attribute
