@@ -3,5 +3,8 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+    {% for dp in dossierpatient %}
+        <a href="{{ path('app_parametreentre_new',{'dossierpatient':dp.id}) }}">{{ dp.patient.nom }} {{ dp.patient.prenoms }}</a><br>
+    {% endfor %}
 
 {% endblock %}

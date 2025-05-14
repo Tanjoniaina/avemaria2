@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parametreentre{% endblock %}
+
+{% block body %}
+    <h1>Parametreentre</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ parametreentre.id }}</td>
+            </tr>
+            <tr>
+                <th>Tensionarteriel</th>
+                <td>{{ parametreentre.tensionarteriel }}</td>
+            </tr>
+            <tr>
+                <th>Temperature</th>
+                <td>{{ parametreentre.temperature }}</td>
+            </tr>
+            <tr>
+                <th>Fc</th>
+                <td>{{ parametreentre.fc }}</td>
+            </tr>
+            <tr>
+                <th>Fr</th>
+                <td>{{ parametreentre.fr }}</td>
+            </tr>
+            <tr>
+                <th>Glycemie</th>
+                <td>{{ parametreentre.glycemie }}</td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td>{{ parametreentre.poids }}</td>
+            </tr>
+            <tr>
+                <th>Spo2</th>
+                <td>{{ parametreentre.spo2 }}</td>
+            </tr>
+            <tr>
+                <th>Remarque</th>
+                <td>{{ parametreentre.remarque }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_prisedesparametres_entity_parametreentre_index') }}">back to list</a>
+
+    <a href="{{ path('app_prisedesparametres_entity_parametreentre_edit', {'id': parametreentre.id}) }}">edit</a>
+
+    {{ include('prisedesparametres/parametreentre/_delete_form.html.twig') }}
+{% endblock %}

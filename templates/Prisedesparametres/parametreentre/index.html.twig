@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parametreentre index{% endblock %}
+
+{% block body %}
+    <h1>Parametreentre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tensionarteriel</th>
+                <th>Temperature</th>
+                <th>Fc</th>
+                <th>Fr</th>
+                <th>Glycemie</th>
+                <th>Poids</th>
+                <th>Spo2</th>
+                <th>Remarque</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parametreentre in parametreentres %}
+            <tr>
+                <td>{{ parametreentre.id }}</td>
+                <td>{{ parametreentre.tensionarteriel }}</td>
+                <td>{{ parametreentre.temperature }}</td>
+                <td>{{ parametreentre.fc }}</td>
+                <td>{{ parametreentre.fr }}</td>
+                <td>{{ parametreentre.glycemie }}</td>
+                <td>{{ parametreentre.poids }}</td>
+                <td>{{ parametreentre.spo2 }}</td>
+                <td>{{ parametreentre.remarque }}</td>
+                <td>
+                    <a href="{{ path('app_parametreentre_show', {'id': parametreentre.id}) }}">show</a>
+                    <a href="{{ path('app_parametreentre_edit', {'id': parametreentre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_parametreentre_new') }}">Create new</a>
+{% endblock %}

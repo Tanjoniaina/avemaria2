@@ -2,31 +2,22 @@
 
 namespace App\Repository;
 
-use App\Shared\Entity\Patient;
+use App\Prisedesparametres\Entity\Parametreentre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Patient>
+ * @extends ServiceEntityRepository<Parametreentre>
  */
-class PatientRepository extends ServiceEntityRepository
+class ParametreentreRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Patient::class);
-    }
-
-    public function findLastPatient(): ?Patient
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        parent::__construct($registry, Parametreentre::class);
     }
 
 //    /**
-//     * @return Patient[] Returns an array of Patient objects
+//     * @return Parametreentre[] Returns an array of Parametreentre objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -40,7 +31,7 @@ class PatientRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Patient
+//    public function findOneBySomeField($value): ?Parametreentre
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

@@ -1,2 +1,70 @@
 framework:
-    workflows: null
+    workflows:
+        parcours_patient:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'etatparcours'
+            supports:
+                - App\Shared\Entity\DossierPatient
+            places:
+                - accueil
+                - prise_parametres
+                - consultation
+                - prescription
+                - facturation_consultation
+                - paiement_consultation
+                - facturation_post_prescription
+                - paiement_post_prescription
+                - laboratoire
+                - imagerie
+                - soins
+                - pharmacie
+                - hospitalisation
+                - sortie
+
+            transitions:
+                commencer_consultation:
+                    from: accueil
+                    to: prise_parametres
+
+                prise_parametres_ok:
+                    from: prise_parametres
+                    to: facturation_consultation
+
+                paiement_consultation_ok:
+                    from: facturation_consultation
+                    to: paiement_consultation
+
+                paiement_valide:
+                    from: paiement_consultation
+                    to: consultation
+
+                consultation_terminee:
+                    from: consultation
+                    to: prescription
+
+                prescription_facturation:
+                    from: prescription
+                    to: facturation_post_prescription
+
+                paiement_final:
+                    from: facturation_post_prescription
+                    to: paiement_post_prescription
+
+                paiement_post_to_laboratoire_ok:
+                    from: paiement_post_prescription
+                    to: laboratoire
+
+                paiement_post_to_imagerie_ok:
+                    from: paiement_post_prescription
+                    to: imagerie
+
+                paiement_post_to_pharmacie_ok:
+                    from: paiement_post_prescription
+                    to: pharmacie
+
+                paiement_post_to_soins_ok:
+                    from: paiement_post_prescription
+                    to: soins
+

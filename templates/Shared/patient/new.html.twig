@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Patient{% endblock %}
+
+{% block body %}
+    <h1>Create new Patient</h1>
+
+    {{ include('shared/patient/_form.html.twig') }}
+    {% for patient in patients %}
+        {{ patient.nom }} {{ patient.prenoms }}<br>
+    {% endfor %}
+
+    <a href="{{ path('app_shared_entity_patient_index') }}">back to list</a>
+{% endblock %}

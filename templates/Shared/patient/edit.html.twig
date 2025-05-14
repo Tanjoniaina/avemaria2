@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Patient{% endblock %}
+
+{% block body %}
+    <h1>Edit Patient</h1>
+
+    {{ include('app/shared/entity/patient/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_shared_entity_patient_index') }}">back to list</a>
+
+    {{ include('app/shared/entity/patient/_delete_form.html.twig') }}
+{% endblock %}
