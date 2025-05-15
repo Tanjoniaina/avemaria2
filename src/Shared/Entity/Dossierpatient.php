@@ -2,7 +2,10 @@
 
 namespace App\Shared\Entity;
 
+use App\Facturation\Entity\Facture;
 use App\Repository\DossierpatientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
@@ -29,6 +32,17 @@ class Dossierpatient
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $datefin = null;
+
+    /**
+     * @var Collection<int, Facture>
+     */
+    #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'Dossierpatient')]
+    private Collection $factures;
+
+    public function __construct()
+    {
+        $this->factures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +105,36 @@ class Dossierpatient
     public function setDatefin(?\DateTime $datefin): static
     {
         $this->datefin = $datefin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(Facture $facture): static
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setDossierpatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): static
+    {
+        if ($this->factures->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getDossierpatient() === $this) {
+                $facture->setDossierpatient(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Facture{% endblock %}
+
+{%  form_theme form _self %}
+
+{% block body %}
+    <h1>Create new Facture</h1>
+
+    {{ include('facturation/facture/_form.html.twig') }}
+
+    <a href="{{ path('app_facturation_entity_facture_index') }}">back to list</a>
+
+
+{% endblock %}
+
+{% block _facture_form_ligne_widget %}
+
+    <p>Ici, ajouter les factures</p>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" id="add-facture" class="btn btn-primary">Ajouter</button>
+    </div>
+
+{% endblock %}
+
+{% block _facture_form_ligne_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+
+{% block _facture_form_ligne_entry_widget %}
+<div class="form-group">
+    <div class="row">
+        <div class="col">{{ form_widget(form.description) }}</div>
+        <div class="col">{{ form_widget(form.montant) }}</div>
+    </div>
+</div>
+{% endblock %}
+
+{%  block javascripts  %}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+        $('#add-facture').click(function (){
+
+            const index = $('#facture_form_ligne div.form-group').length;
+            const tmpl = $('#facture_form_ligne').data('prototype').replace(/__name__/g,index);
+            $('#facture_form_ligne').append(tmpl);
+        });
+    </script>
+{% endblock %}

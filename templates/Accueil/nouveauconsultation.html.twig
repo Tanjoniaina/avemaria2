@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}New Patient{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app__new_consultation') }}">Consultation</a>
-    <a href="">Examen (analyse)</a>
-    <a href="">Urgence</a>
-    <a href="">Vaccin</a>
+    <h1>Nouveau patient</h1>
+
+    {{ include('shared/patient/_form.html.twig') }}
+
+    <h1>Patient existant</h1> {# TODO Micreer dossier patient à partir ny patient efa misy #}
+    {% for patient in patients %}
+        {{ patient.nom }} {{ patient.prenoms }}<br>
+    {% endfor %}
+
 {% endblock %}

@@ -16,6 +16,20 @@ class DossierpatientRepository extends ServiceEntityRepository
         parent::__construct($registry, Dossierpatient::class);
     }
 
+    public function findEnFacturation(array $etats, string $parcours): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.datefin IS NULL')
+            ->andWhere('d.etatparcours IN (:etats)')
+            ->andWhere('d.typeparcours = :parcours')
+            ->setParameter('etats', $etats)
+            ->setParameter('parcours', $parcours)
+            ->orderBy('d.datedebut', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 //    /**
 //     * @return Dossierpatient[] Returns an array of Dossierpatient objects
 //     */

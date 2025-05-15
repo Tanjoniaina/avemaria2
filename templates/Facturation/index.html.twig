@@ -3,5 +3,12 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-
+    <h3>Consultation</h3>
+    {% for pc in patientconsultation %}
+        <a href="{{ path('app_facturation_entity_facture_new',{'dossierpatient': pc.id}) }}">{{ pc.patient.nom }}</a>
+    {% endfor %}
+    <h3>Hospitalisation</h3>
+    {% for ph in patienthospitalisation %}
+        <a href="{{ path('app_facturation_entity_facture_new',{'dossierpatient': pc.id}) }}">{{ ph.patient.nom }}</a>
+    {% endfor %}
 {% endblock %}
