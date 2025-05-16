@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Workflow\Registry;
 
 #[Route('/facturation')]
 final class FactureController extends AbstractController
@@ -29,21 +30,27 @@ final class FactureController extends AbstractController
     }
 
     #[Route('/new/{dossierpatient}', name: 'app_facturation_entity_facture_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $dossierpatient, DossierpatientRepository $dossierpatientRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, $dossierpatient, DossierpatientRepository $dossierpatientRepository, Registry $registry): Response
     {
 
         $facture = new Facture();
-        $ligne1 =  new Lignefacture();
-        $ligne1->setDescription('test');
-        $ligne1->getMontant(12345);
-        $facture->addLigne($ligne1);
         $facture->setDossierpatient($dossierpatientRepository->find($dossierpatient));
 
         $form = $this->createForm(FactureForm::class, $facture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($facture->getLigne() as $ligne) {
+                $ligne->setFacture($facture);
+                $entityManager->persist($ligne);
+            }
             $facture->setDatefacture(new \DateTime());
+            $dossier = $dossierpatientRepository->find($dossierpatient);
+            $workflow = $registry->get($dossier,'parcours_patient');
+            if($workflow->can($dossier,'facturation_consultation_ok')){
+                $workflow->apply($dossier,'facturation_consultation_ok');
+            }
             $entityManager->persist($facture);
             $entityManager->flush();
 

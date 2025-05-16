@@ -22,6 +22,7 @@ framework:
                 - pharmacie
                 - hospitalisation
                 - sortie
+                - economat
 
             transitions:
                 commencer_consultation:
@@ -35,6 +36,11 @@ framework:
                 paiement_consultation_ok:
                     from: facturation_consultation
                     to: paiement_consultation
+
+                facturation_consultation_ok:
+                    from: facturation_consultation
+                    to : economat
+
 
                 paiement_valide:
                     from: paiement_consultation
