@@ -16,6 +16,28 @@ class FactureRepository extends ServiceEntityRepository
         parent::__construct($registry, Facture::class);
     }
 
+    /**
+     * Récupère une facture avec ses lignes en un seul coup.
+     */
+    public function findAvecLignes(int $id): ?Facture
+    {
+        return $this->createQueryBuilder('f')
+            ->leftJoin('f.ligne', 'ligne')       // jointure
+            ->addSelect('ligne')                 // indique qu'on veut aussi les données des lignes
+            ->where('f.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findLastFacture(): ?Facture
+    {
+        return $this->createQueryBuilder('f')
+            ->orderBy('f.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Facture[] Returns an array of Facture objects
 //     */

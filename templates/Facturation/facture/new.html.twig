@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-10">
             <div class="row">
-                <div class="col-6">{{ form_widget(form.description) }}</div>
+                <div class="col-6">{{ form_widget(form.tarifacte) }}</div>
                 <div class="col-6">{{ form_widget(form.montant) }}</div>
             </div>
         </div>
@@ -66,5 +66,34 @@
             });
         }
         handleDeleteButtons()
+    </script>
+    <script>
+        $(document).ready(function () {
+            function updateMontant(select) {
+                const $select = $(select);
+                const prix = $select.find('option:selected').data('prix');
+
+                // Ex : id = facture_form_ligne_0_tarifActe
+                const id = $select.attr('id');
+                const ligneIndex = id.match(/\d+/)[0]; // récupère 0, 1, 2…
+
+                const $montantInput = $('#facture_form_ligne_' + ligneIndex + '_montant');
+
+                if (prix !== undefined && $montantInput.length) {
+                    $montantInput.val(prix);
+                }
+            }
+
+            // Pour toutes les lignes existantes au chargement
+            $('[id^="facture_form_ligne_"][id$="_tarifacte"]').each(function () {
+                updateMontant(this); // met à jour dès le départ si besoin
+            });
+
+            // Lorsqu’on change un tarifActe
+            $(document).on('change', '[id^="facture_form_ligne_"][id$="_tarifacte"]', function () {
+                updateMontant(this);
+            });
+        });
+
     </script>
 {% endblock %}

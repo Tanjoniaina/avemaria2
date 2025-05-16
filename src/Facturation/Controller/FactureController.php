@@ -30,11 +30,36 @@ final class FactureController extends AbstractController
     }
 
     #[Route('/new/{dossierpatient}', name: 'app_facturation_entity_facture_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $dossierpatient, DossierpatientRepository $dossierpatientRepository, Registry $registry): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        $dossierpatient,
+        DossierpatientRepository $dossierpatientRepository,
+        Registry $registry,
+        FactureRepository $factureRepository
+    ): Response
     {
 
         $facture = new Facture();
         $facture->setDossierpatient($dossierpatientRepository->find($dossierpatient));
+
+        $lastfacture = $factureRepository->findLastFacture();
+        $year = date('Y');
+        if($lastfacture){
+            $numfacture = $lastfacture->getNumero();
+            $parts = explode('/', $numfacture);
+            if (count($parts) === 2) {
+                $suffix = $parts[1];
+                $suffixInt = (int) $suffix;
+                $suffixInt++;
+                $newSuffix = str_pad($suffixInt, strlen($suffix), '0', STR_PAD_LEFT);
+                $newFacture =  'FAC-'.$year . '/' . $newSuffix;
+            }
+        }else{
+            $newFacture = 'FAC-'.$year.'/00001';
+        }
+
+        $facture->setNumero($newFacture);
 
         $form = $this->createForm(FactureForm::class, $facture);
         $form->handleRequest($request);
@@ -45,7 +70,6 @@ final class FactureController extends AbstractController
                 $ligne->setFacture($facture);
                 $entityManager->persist($ligne);
             }
-            $facture->setDatefacture(new \DateTime());
             $dossier = $dossierpatientRepository->find($dossierpatient);
             $workflow = $registry->get($dossier,'parcours_patient');
             if($workflow->can($dossier,'facturation_consultation_ok')){

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tarifacte{% endblock %}
+
+{% block body %}
+    <h1>Tarifacte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tarifacte.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ tarifacte.nom }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ tarifacte.montant }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_shared_entity_tarifacte_index') }}">back to list</a>
+
+    <a href="{{ path('app_shared_entity_tarifacte_edit', {'id': tarifacte.id}) }}">edit</a>
+
+    {{ include('shared/tarifacte/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Paiement{% endblock %}
+
+{% block body %}
+    <h1>Create new Paiement</h1>
+    <h3>Montant facture : {{ montantfacture }}</h3>
+    <h3>Payé : {{ paye }}</h3>
+    <h3>Reste à payer : {{ resteapayer }}</h3>
+    <h1>Détails du facture</h1>
+    {% for d in detailfacture %}
+        {{ d.tarifacte.nom }} : {{ d.montant }} Ar <br>
+    {% endfor %}
+    <h1>Montant à payer :</h1>
+    {{ include('economat/paiement/_form.html.twig') }}
+
+    <a href="{{ path('app_economat_entity_paiement_index') }}">back to list</a>
+{% endblock %}

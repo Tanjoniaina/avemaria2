@@ -3,6 +3,7 @@
 namespace App\Facturation\Entity;
 
 use App\Repository\LignefactureRepository;
+use App\Shared\Entity\Tarifacte;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LignefactureRepository::class)]
@@ -16,11 +17,12 @@ class Lignefacture
     #[ORM\ManyToOne(inversedBy: 'lignefactures')]
     private ?Facture $facture = null;
 
-    #[ORM\Column(length: 150)]
-    private ?string $description = null;
 
     #[ORM\Column]
     private ?float $montant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'lignefactures')]
+    private ?Tarifacte $tarifacte = null;
 
     public function getId(): ?int
     {
@@ -39,18 +41,6 @@ class Lignefacture
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getMontant(): ?float
     {
         return $this->montant;
@@ -59,6 +49,18 @@ class Lignefacture
     public function setMontant(float $montant): static
     {
         $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getTarifacte(): ?Tarifacte
+    {
+        return $this->tarifacte;
+    }
+
+    public function setTarifacte(?Tarifacte $tarifacte): static
+    {
+        $this->tarifacte = $tarifacte;
 
         return $this;
     }
