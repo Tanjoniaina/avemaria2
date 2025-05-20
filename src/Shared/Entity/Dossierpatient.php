@@ -2,6 +2,7 @@
 
 namespace App\Shared\Entity;
 
+use App\Consultation\Entity\Ordonnance;
 use App\Facturation\Entity\Facture;
 use App\Repository\DossierpatientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,9 +40,16 @@ class Dossierpatient
     #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'Dossierpatient')]
     private Collection $factures;
 
+    /**
+     * @var Collection<int, Ordonnance>
+     */
+    #[ORM\OneToMany(targetEntity: Ordonnance::class, mappedBy: 'dossierpatient')]
+    private Collection $ordonnances;
+
     public function __construct()
     {
         $this->factures = new ArrayCollection();
+        $this->ordonnances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +141,36 @@ class Dossierpatient
             // set the owning side to null (unless already changed)
             if ($facture->getDossierpatient() === $this) {
                 $facture->setDossierpatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ordonnance>
+     */
+    public function getOrdonnances(): Collection
+    {
+        return $this->ordonnances;
+    }
+
+    public function addOrdonnance(Ordonnance $ordonnance): static
+    {
+        if (!$this->ordonnances->contains($ordonnance)) {
+            $this->ordonnances->add($ordonnance);
+            $ordonnance->setDossierpatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdonnance(Ordonnance $ordonnance): static
+    {
+        if ($this->ordonnances->removeElement($ordonnance)) {
+            // set the owning side to null (unless already changed)
+            if ($ordonnance->getDossierpatient() === $this) {
+                $ordonnance->setDossierpatient(null);
             }
         }
 

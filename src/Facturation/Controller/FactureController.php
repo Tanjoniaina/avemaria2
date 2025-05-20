@@ -66,6 +66,7 @@ final class FactureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            dd($facture->getLigne());
             foreach($facture->getLigne() as $ligne) {
                 $ligne->setFacture($facture);
                 $entityManager->persist($ligne);

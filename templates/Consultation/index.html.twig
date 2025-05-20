@@ -3,5 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-
+    {% for ordonnance in ordonnances %}
+        <a href="{{ path('app_consultation_entity_ordonnance_new',{'dossierpatient':ordonnance.id}) }}">{{ ordonnance.patient.nom }}</a>
+    {% endfor %}
 {% endblock %}

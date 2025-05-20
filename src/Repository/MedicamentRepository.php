@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Facturation\Entity\Tarifacte;
+use App\Pharmaciegros\Entity\Medicament;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Tarifacte>
+ * @extends ServiceEntityRepository<Medicament>
  */
-class TarifacteRepository extends ServiceEntityRepository
+class MedicamentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tarifacte::class);
+        parent::__construct($registry, Medicament::class);
     }
 
 //    /**
-//     * @return Tarifacte[] Returns an array of Tarifacte objects
+//     * @return Medicament[] Returns an array of Medicament objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
+//        return $this->createQueryBuilder('m')
+//            ->andWhere('m.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
+//            ->orderBy('m.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Tarifacte
+//    public function findOneBySomeField($value): ?Medicament
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
+//        return $this->createQueryBuilder('m')
+//            ->andWhere('m.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

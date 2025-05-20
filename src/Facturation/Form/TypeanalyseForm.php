@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Shared\Form;
+namespace App\Facturation\Form;
 
-use App\Facturation\Entity\Tarifacte;
+use App\Facturation\Entity\Typeanalyse;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TarifacteForm extends AbstractType
+class TypeanalyseForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +20,7 @@ class TarifacteForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Tarifacte::class,
+            'data_class' => Typeanalyse::class,
         ]);
     }
 }

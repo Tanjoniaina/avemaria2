@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Shared\Entity;
+namespace App\Facturation\Entity;
 
-use App\Facturation\Entity\Lignefacture;
 use App\Repository\TarifacteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

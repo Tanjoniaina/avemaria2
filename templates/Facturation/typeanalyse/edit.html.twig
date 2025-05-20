@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Typeanalyse{% endblock %}
+
+{% block body %}
+    <h1>Edit Typeanalyse</h1>
+
+    {{ include('facturation/typeanalyse/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_facturation_entity_typeanalyse_index') }}">back to list</a>
+
+    {{ include('facturation/typeanalyse/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Shared\Controller;
+namespace App\Facturation\Controller;
 
+use App\Facturation\Entity\Tarifacte;
 use App\Repository\TarifacteRepository;
-use App\Shared\Entity\Tarifacte;
 use App\Shared\Form\TarifacteForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/tarifacte')]
+#[Route('tarifacte')]
 final class TarifacteController extends AbstractController
 {
     #[Route(name: 'app_shared_entity_tarifacte_index', methods: ['GET'])]
     public function index(TarifacteRepository $tarifacteRepository): Response
     {
-        return $this->render('shared/tarifacte/index.html.twig', [
+        return $this->render('facturation/tarifacte/index.html.twig', [
             'tarifactes' => $tarifacteRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class TarifacteController extends AbstractController
             return $this->redirectToRoute('app_shared_entity_tarifacte_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('shared/tarifacte/new.html.twig', [
+        return $this->render('facturation/tarifacte/new.html.twig', [
             'tarifacte' => $tarifacte,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class TarifacteController extends AbstractController
     #[Route('/{id}', name: 'app_shared_entity_tarifacte_show', methods: ['GET'])]
     public function show(Tarifacte $tarifacte): Response
     {
-        return $this->render('shared/tarifacte/show.html.twig', [
+        return $this->render('facturation/tarifacte/show.html.twig', [
             'tarifacte' => $tarifacte,
         ]);
     }
@@ -62,7 +62,7 @@ final class TarifacteController extends AbstractController
             return $this->redirectToRoute('app_shared_entity_tarifacte_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('shared/tarifacte/edit.html.twig', [
+        return $this->render('facturation/tarifacte/edit.html.twig', [
             'tarifacte' => $tarifacte,
             'form' => $form,
         ]);

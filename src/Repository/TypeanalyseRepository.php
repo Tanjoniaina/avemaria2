@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Facturation\Entity\Tarifacte;
+use App\Facturation\Entity\Typeanalyse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Tarifacte>
+ * @extends ServiceEntityRepository<Typeanalyse>
  */
-class TarifacteRepository extends ServiceEntityRepository
+class TypeanalyseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tarifacte::class);
+        parent::__construct($registry, Typeanalyse::class);
     }
 
 //    /**
-//     * @return Tarifacte[] Returns an array of Tarifacte objects
+//     * @return Typeanalyse[] Returns an array of Typeanalyse objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class TarifacteRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Tarifacte
+//    public function findOneBySomeField($value): ?Typeanalyse
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

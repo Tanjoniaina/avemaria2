@@ -3,7 +3,6 @@
 namespace App\Facturation\Entity;
 
 use App\Repository\LignefactureRepository;
-use App\Shared\Entity\Tarifacte;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LignefactureRepository::class)]

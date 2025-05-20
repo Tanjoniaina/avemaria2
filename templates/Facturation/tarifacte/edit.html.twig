@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Tarifacte</h1>
 
-    {{ include('shared/tarifacte/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('facturation/tarifacte/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_shared_entity_tarifacte_index') }}">back to list</a>
 
-    {{ include('shared/tarifacte/_delete_form.html.twig') }}
+    {{ include('facturation/tarifacte/_delete_form.html.twig') }}
 {% endblock %}

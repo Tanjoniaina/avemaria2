@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Facturation\Entity\Tarifacte;
+use App\Consultation\Entity\Ligneanalyse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Tarifacte>
+ * @extends ServiceEntityRepository<Ligneanalyse>
  */
-class TarifacteRepository extends ServiceEntityRepository
+class LigneanalyseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tarifacte::class);
+        parent::__construct($registry, Ligneanalyse::class);
     }
 
 //    /**
-//     * @return Tarifacte[] Returns an array of Tarifacte objects
+//     * @return Ligneanalyse[] Returns an array of Ligneanalyse objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
+//        return $this->createQueryBuilder('l')
+//            ->andWhere('l.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
+//            ->orderBy('l.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Tarifacte
+//    public function findOneBySomeField($value): ?Ligneanalyse
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
+//        return $this->createQueryBuilder('l')
+//            ->andWhere('l.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

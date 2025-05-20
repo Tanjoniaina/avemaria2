@@ -1,26 +1,25 @@
 <?php
 
-namespace App\Shared\Form;
+namespace App\Pharmaciegros\Form;
 
-use App\Facturation\Entity\Tarifacte;
+use App\Pharmaciegros\Entity\Medicament;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TarifacteForm extends AbstractType
+class MedicamentForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nom')
-            ->add('montant')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Tarifacte::class,
+            'data_class' => Medicament::class,
         ]);
     }
 }
