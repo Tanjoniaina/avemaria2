@@ -22,10 +22,12 @@ final class FactureController extends AbstractController
     {
         $patientconsultation = $dossierpatientRepository->findEnFacturation(['facturation_consultation'],'consultation');
         $patienthospitalisation = $dossierpatientRepository->findEnFacturation(['prescription','prise_parametres'],'hospitalisation');
+        $patientapresconsultation = $dossierpatientRepository->findEnFacturation(['facturation_post_consultation'],'consultation');
 
         return $this->render('facturation/index.html.twig', [
             'patientconsultation' => $patientconsultation,
-            'patienthospitalisation' => $patienthospitalisation
+            'patienthospitalisation' => $patienthospitalisation,
+            'patientapresconsultation' => $patientapresconsultation
         ]);
     }
 
@@ -39,7 +41,6 @@ final class FactureController extends AbstractController
         FactureRepository $factureRepository
     ): Response
     {
-
         $facture = new Facture();
         $facture->setDossierpatient($dossierpatientRepository->find($dossierpatient));
 

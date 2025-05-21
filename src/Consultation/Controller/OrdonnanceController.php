@@ -11,8 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Workflow\Registry;
 
-#[Route('/ordonnance')]
+#[Route('/consultation')]
 final class OrdonnanceController extends AbstractController
 {
     #[Route(name: 'app_consultation_entity_ordonnance_index', methods: ['GET'])]
@@ -25,10 +26,11 @@ final class OrdonnanceController extends AbstractController
     }
 
     #[Route('/new/{dossierpatient}', name: 'app_consultation_entity_ordonnance_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,$dossierpatient, DossierpatientRepository $dossierpatientRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,$dossierpatient, DossierpatientRepository $dossierpatientRepository,Registry $registry): Response
     {
         $ordonnance = new Ordonnance();
-        $ordonnance->setDossierpatient($dossierpatientRepository->find($dossierpatient));
+        $dossierpatient= $dossierpatientRepository->find($dossierpatient);
+        $ordonnance->setDossierpatient($dossierpatient);
         $form = $this->createForm(OrdonnanceForm::class, $ordonnance);
         $form->handleRequest($request);
 
@@ -44,8 +46,29 @@ final class OrdonnanceController extends AbstractController
                 $ligneanalysis->setOrdonnance($ordonnance);
                 $entityManager->persist($ligneanalysis);
             }
-
             $entityManager->persist($ordonnance);
+
+            $action = $request->request->get('action');
+            $workflow = $registry->get($dossierpatient,'parcours_patient');
+            if ($action === 'externe') {
+                // Le patient veut sortir immédiatement
+                if ($workflow->can($dossierpatient, 'consultation_directe_sortie')) {
+                    $workflow->apply($dossierpatient, 'consultation_directe_sortie');
+                }
+
+                $this->addFlash('success', 'Ordonnance enregistrée. Le patient peut sortir.');
+            }
+
+            if ($action === 'interne') {
+                // Le patient fait les actes dans la clinique
+                if ($workflow->can($dossierpatient, 'post_consultation_facturation')) {
+                    $workflow->apply($dossierpatient, 'post_consultation_facturation');
+                }
+
+                $this->addFlash('success', 'Ordonnance enregistrée. Le patient doit passer à la facturation.');
+            }
+
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_consultation_entity_ordonnance_index', [], Response::HTTP_SEE_OTHER);

@@ -21,6 +21,7 @@ framework:
                 - hospitalisation
                 - sortie
                 - economat
+                - service
 
             transitions:
                 commencer_consultation:
@@ -50,4 +51,8 @@ framework:
                 paiement_post_consultation:
                     from: facturation_post_consultation
                     to: economat
+
+                paiement_post_consultation_ok:
+                    from: economat
+                    to: service
 
