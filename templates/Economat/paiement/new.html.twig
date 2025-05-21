@@ -9,7 +9,7 @@
     <h3>Reste à payer : {{ resteapayer }}</h3>
     <h1>Détails du facture</h1>
     {% for d in detailfacture %}
-        {{ d.tarifacte.nom }} : {{ d.montant }} Ar <br>
+        {{ d.description }} : {{ d.montant }} Ar <br>
     {% endfor %}
     <h1>Montant à payer :</h1>
     {{ include('economat/paiement/_form.html.twig') }}

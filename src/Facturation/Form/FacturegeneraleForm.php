@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FactureForm extends AbstractType
+class FacturegeneraleForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,10 +20,9 @@ class FactureForm extends AbstractType
                 'ligne',
                 CollectionType::class,
                 [
-                    'entry_type' => LignefactureconsultationForm::class,
+                    'entry_type' => LignefacturegeneraleForm::class,
                     'allow_add' => true,
-                    'allow_delete' => true, // ✅ ici
-                    'by_reference' => false,
+                    'allow_delete' => true,
                 ]
 
             )

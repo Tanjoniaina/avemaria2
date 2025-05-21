@@ -16,12 +16,19 @@ class Lignefacture
     #[ORM\ManyToOne(inversedBy: 'lignefactures')]
     private ?Facture $facture = null;
 
-
     #[ORM\Column]
     private ?float $montant = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lignefactures')]
-    private ?Tarifacte $tarifacte = null;
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $type = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $referenceid = null;
+
+    private $tarifacte = null;
 
     public function getId(): ?int
     {
@@ -48,6 +55,42 @@ class Lignefacture
     public function setMontant(float $montant): static
     {
         $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getReferenceid(): ?int
+    {
+        return $this->referenceid;
+    }
+
+    public function setReferenceid(?int $referenceid): static
+    {
+        $this->referenceid = $referenceid;
 
         return $this;
     }

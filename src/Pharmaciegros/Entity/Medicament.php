@@ -25,6 +25,9 @@ class Medicament
     #[ORM\OneToMany(targetEntity: Ligneordonnance::class, mappedBy: 'medicament')]
     private Collection $ligneordonnances;
 
+    #[ORM\Column]
+    private ?float $montant = null;
+
     public function __construct()
     {
         $this->ligneordonnances = new ArrayCollection();
@@ -73,6 +76,18 @@ class Medicament
                 $ligneordonnance->setMedicament(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMontant(): ?float
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(float $montant): static
+    {
+        $this->montant = $montant;
 
         return $this;
     }

@@ -9,7 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LignefactureForm extends AbstractType
+class LignefactureconsultationForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -25,6 +25,8 @@ class LignefactureForm extends AbstractType
                 'required' => true,
             ])
             ->add('montant')
+            ->add('type')
+            ->add('referenceid')
         ;
     }
 

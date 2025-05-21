@@ -12,7 +12,7 @@
 
 {% endblock %}
 
-{% block _facture_form_ligne_widget %}
+{% block _facturegenerale_form_ligne_widget %}
 
     <p>Ici, ajouter les factures</p>
     {{ form_widget(form) }}
@@ -23,26 +23,27 @@
 
 {% endblock %}
 
-{% block _facture_form_ligne_entry_row %}
+{% block _facturegenerale_form_ligne_entry_row %}
     {{ form_widget(form) }}
 {% endblock %}
 
 
-{% block _facture_form_ligne_entry_widget %}
-<div class="form-group" id="block_{{ id }}">
-    <div class="row">
-        <div class="col-10">
-            <div class="row">
-                <div class="col-2">{{ form_widget(form.tarifacte) }}</div>
-                <div class="col-2">{{ form_widget(form.montant) }}</div>
+{% block _facturegenerale_form_ligne_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-2">{{ form_widget(form.description) }}</div>
+                    <div class="col-2">{{ form_widget(form.montant) }}</div>
+
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }} " class="btn btn-danger">X</button>
             </div>
         </div>
-        <div class="col-2">
-            <button type="button" data-action="delete" data-target="#block_{{ id }} " class="btn btn-danger">X</button>
-        </div>
-    </div>
 
-</div>
+    </div>
 {% endblock %}
 
 {%  block javascripts  %}
@@ -51,8 +52,8 @@
         $('#add-facture').click(function (){
 
             const index = +$('#widget-counter').val();
-            const tmpl = $('#facture_form_ligne').data('prototype').replace(/__name__/g,index);
-            $('#facture_form_ligne').append(tmpl);
+            const tmpl = $('#facturegenerale_form_ligne').data('prototype').replace(/__name__/g,index);
+            $('#facturegenerale_form_ligne').append(tmpl);
             $('#widget-counter').val(index + 1);
             handleDeleteButtons();
         });
@@ -83,12 +84,12 @@
             }
 
             // Pour toutes les lignes existantes au chargement
-            $('[id^="facture_form_ligne_"][id$="_tarifacte"]').each(function () {
+            $('[id^="facturegenerale_form_ligne_"][id$="_tarifacte"]').each(function () {
                 updateMontant(this); // met à jour dès le départ si besoin
             });
 
             // Lorsqu’on change un tarifActe
-            $(document).on('change', '[id^="facture_form_ligne_"][id$="_tarifacte"]', function () {
+            $(document).on('change', '[id^="facturegenerale_form_ligne_"][id$="_tarifacte"]', function () {
                 updateMontant(this);
             });
         });

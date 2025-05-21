@@ -13,6 +13,6 @@
     {% endfor %}
     <h3>Autre</h3>
     {% for pac in patientapresconsultation %}
-        <a href="">{{ pac.patient.nom }}</a>
+        <a href="{{ path('app_facturation_entity_facture_newapresconsultation',{'dossierpatient': pac.id}) }}">{{ pac.patient.nom }}</a>
     {% endfor %}
 {% endblock %}

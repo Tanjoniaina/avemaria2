@@ -5,6 +5,7 @@ namespace App\Facturation\Controller;
 use App\Facturation\Entity\Facture;
 use App\Facturation\Entity\Lignefacture;
 use App\Facturation\Form\FactureForm;
+use App\Facturation\Form\FacturegeneraleForm;
 use App\Repository\DossierpatientRepository;
 use App\Repository\FactureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ final class FactureController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{dossierpatient}', name: 'app_facturation_entity_facture_new', methods: ['GET', 'POST'])]
+    #[Route('/new/consultation/{dossierpatient}', name: 'app_facturation_entity_facture_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -67,9 +68,11 @@ final class FactureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dd($facture->getLigne());
             foreach($facture->getLigne() as $ligne) {
                 $ligne->setFacture($facture);
+                $ligne->setDescription($ligne->getTarifacte()->getNom());
+                $ligne->setType('consultation');
+                $ligne->setReferenceid($ligne->getTarifacte()->getId());
                 $entityManager->persist($ligne);
             }
             $dossier = $dossierpatientRepository->find($dossierpatient);
@@ -84,6 +87,86 @@ final class FactureController extends AbstractController
         }
 
         return $this->render('facturation/facture/new.html.twig', [
+            'facture' => $facture,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/new/apresconsultation/{dossierpatient}', name: 'app_facturation_entity_facture_newapresconsultation', methods: ['GET', 'POST'])]
+    public function newapresconsultation(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        $dossierpatient,
+        DossierpatientRepository $dossierpatientRepository,
+        Registry $registry,
+        FactureRepository $factureRepository
+    ): Response
+    {
+        $facture = new Facture();
+        $dossierpatient = $dossierpatientRepository->find($dossierpatient);
+        $facture->setDossierpatient($dossierpatient);
+
+        $lastfacture = $factureRepository->findLastFacture();
+        $year = date('Y');
+        if($lastfacture){
+            $numfacture = $lastfacture->getNumero();
+            $parts = explode('/', $numfacture);
+            if (count($parts) === 2) {
+                $suffix = $parts[1];
+                $suffixInt = (int) $suffix;
+                $suffixInt++;
+                $newSuffix = str_pad($suffixInt, strlen($suffix), '0', STR_PAD_LEFT);
+                $newFacture =  'FAC-'.$year . '/' . $newSuffix;
+            }
+        }else{
+            $newFacture = 'FAC-'.$year.'/00001';
+        }
+
+        $facture->setNumero($newFacture);
+
+        foreach ($dossierpatient->getOrdonnances() as $ordonnance) {
+            foreach ($ordonnance->getLigne() as $ligne){
+                $lignefacture = new Lignefacture();
+                $lignefacture->setDescription($ligne->getMedicament()->getNom());
+                $lignefacture->setMontant($ligne->getMedicament()->getMontant());
+                $lignefacture->setType('Medicament');
+                $lignefacture->setReferenceid($ligne->getMedicament()->getId());
+                $facture->addLigne($lignefacture);
+            }
+
+            foreach ($ordonnance->getLigneanalyse() as $ligneanalyse){
+                $lignefacture = new Lignefacture();
+                $lignefacture->setDescription($ligneanalyse->getTypeanalyse()->getNom());
+                $lignefacture->setMontant($ligneanalyse->getTypeanalyse()->getMontant());
+                $lignefacture->setType('Analyse');
+                $lignefacture->setReferenceid($ligneanalyse->getTypeanalyse()->getId());
+                $facture->addLigne($lignefacture);
+            }
+        }
+
+        $form = $this->createForm(FacturegeneraleForm::class, $facture);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($facture->getLigne() as $ligne) {
+                $ligne->setFacture($facture);
+                $entityManager->persist($ligne);
+            }
+
+            $workflow = $registry->get($dossierpatient,'parcours_patient');
+            if($workflow->can($dossierpatient,'paiement_post_consultation')){
+                $workflow->apply($dossierpatient,'paiement_post_consultation');
+            }
+
+            $entityManager->persist($facture);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_facturation_entity_facture_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('facturation/facture/newfacturegenerale.html.twig', [
             'facture' => $facture,
             'form' => $form,
         ]);
