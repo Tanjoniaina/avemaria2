@@ -12,7 +12,6 @@ framework:
                 - prise_parametres
                 - consultation
                 - facturation_consultation
-                - facturation_post_consultation
                 - paiement_consultation
                 - laboratoire
                 - imagerie
