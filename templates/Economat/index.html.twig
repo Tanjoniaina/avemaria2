@@ -4,6 +4,6 @@
 
 {% block body %}
     {% for facture in factures %}
-        <a href="{{ path('app_economat_entity_paiement_new', {'facture':facture.id}) }}">{{ facture.numero }} {{ facture.dossierpatient.patient.nom }} {{ facture.dossierpatient.patient.prenoms }}</a>
+        <a href="{{ path('app_economat_entity_paiement_new', {'facture':facture.id}) }}">{{ facture.numero }} {{ facture.dossierpatient.patient.nom }} {{ facture.dossierpatient.patient.prenoms }}</a><br>
     {% endfor %}
 {% endblock %}

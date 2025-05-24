@@ -6,13 +6,16 @@
     <h3>Consultation</h3>
     {% for pc in patientconsultation %}
         <a href="{{ path('app_facturation_entity_facture_new',{'dossierpatient': pc.id}) }}">{{ pc.patient.nom }}</a>
+        <br>
     {% endfor %}
     <h3>Hospitalisation</h3>
     {% for ph in patienthospitalisation %}
         <a href="{{ path('app_facturation_entity_facture_new',{'dossierpatient': pc.id}) }}">{{ ph.patient.nom }}</a>
+        <br>
     {% endfor %}
     <h3>Autre</h3>
     {% for pac in patientapresconsultation %}
         <a href="{{ path('app_facturation_entity_facture_newapresconsultation',{'dossierpatient': pac.id}) }}">{{ pac.patient.nom }}</a>
+        <br>
     {% endfor %}
 {% endblock %}

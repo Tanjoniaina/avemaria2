@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
 #[Route('/patient')]
 final class PatientController extends AbstractController
 {
@@ -45,6 +46,7 @@ final class PatientController extends AbstractController
     #[Route('/{id}', name: 'app_shared_entity_patient_show', methods: ['GET'])]
     public function show(Patient $patient): Response
     {
+
         return $this->render('Shared/patient/show.html.twig', [
             'patient' => $patient,
         ]);
