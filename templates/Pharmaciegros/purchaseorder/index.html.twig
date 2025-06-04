@@ -1,0 +1,41 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Purchaseorder index{% endblock %}
+
+{% block body %}
+    <h1>Purchaseorder index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Orderdate</th>
+                <th>Status</th>
+                <th>Referencenumber</th>
+                <th>Totalamount</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchaseorder in purchaseorders %}
+            <tr>
+                <td>{{ purchaseorder.id }}</td>
+                <td>{{ purchaseorder.orderdate ? purchaseorder.orderdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ purchaseorder.status }}</td>
+                <td>{{ purchaseorder.referencenumber }}</td>
+                <td>{{ purchaseorder.totalamount }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_show', {'id': purchaseorder.id}) }}">show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_new') }}">Create new</a>
+{% endblock %}

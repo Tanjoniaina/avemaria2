@@ -1,0 +1,11 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}New Dispensation{% endblock %}
+
+{% block body %}
+    <h1>Create new Dispensation</h1>
+
+    {{ include('app/pharmaciegros/entity/dispensation/_form.html.twig') }}
+
+    <a href="{{ path('app_pharmaciegros_entity_dispensation_index') }}">back to list</a>
+{% endblock %}

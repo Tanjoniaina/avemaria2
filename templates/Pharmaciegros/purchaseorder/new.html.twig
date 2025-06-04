@@ -1,0 +1,11 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}New Purchaseorder{% endblock %}
+
+{% block body %}
+    <h1>Create new Purchaseorder</h1>
+
+    {{ include('app/pharmaciegros/entity/purchaseorder/_form.html.twig') }}
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">back to list</a>
+{% endblock %}

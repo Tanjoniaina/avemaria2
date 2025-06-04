@@ -1,0 +1,11 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}New Stockmovement{% endblock %}
+
+{% block body %}
+    <h1>Create new Stockmovement</h1>
+
+    {{ include('app/pharmaciegros/entity/stockmovement/_form.html.twig') }}
+
+    <a href="{{ path('app_pharmaciegros_entity_stockmovement_index') }}">back to list</a>
+{% endblock %}

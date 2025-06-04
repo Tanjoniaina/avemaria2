@@ -1,0 +1,39 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Dispensation index{% endblock %}
+
+{% block body %}
+    <h1>Dispensation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Quantity</th>
+                <th>Comment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dispensation in dispensations %}
+            <tr>
+                <td>{{ dispensation.id }}</td>
+                <td>{{ dispensation.date ? dispensation.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dispensation.quantity }}</td>
+                <td>{{ dispensation.comment }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_dispensation_show', {'id': dispensation.id}) }}">show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_dispensation_edit', {'id': dispensation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_dispensation_new') }}">Create new</a>
+{% endblock %}

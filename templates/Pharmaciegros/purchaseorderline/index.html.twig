@@ -1,0 +1,39 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Purchaseorderline index{% endblock %}
+
+{% block body %}
+    <h1>Purchaseorderline index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantityordered</th>
+                <th>Unitprice</th>
+                <th>Subtotal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchaseorderline in purchaseorderlines %}
+            <tr>
+                <td>{{ purchaseorderline.id }}</td>
+                <td>{{ purchaseorderline.quantityordered }}</td>
+                <td>{{ purchaseorderline.unitprice }}</td>
+                <td>{{ purchaseorderline.subtotal }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorderline_show', {'id': purchaseorderline.id}) }}">show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorderline_edit', {'id': purchaseorderline.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorderline_new') }}">Create new</a>
+{% endblock %}

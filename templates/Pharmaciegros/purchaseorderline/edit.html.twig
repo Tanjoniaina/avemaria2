@@ -1,0 +1,13 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Edit Purchaseorderline{% endblock %}
+
+{% block body %}
+    <h1>Edit Purchaseorderline</h1>
+
+    {{ include('app/pharmaciegros/entity/purchaseorderline/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorderline_index') }}">back to list</a>
+
+    {{ include('app/pharmaciegros/entity/purchaseorderline/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+    <h1>Product index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Dosage</th>
+                <th>Form</th>
+                <th>Purchaseprice</th>
+                <th>Saleprice</th>
+                <th>Stockmin</th>
+                <th>Isactive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.code }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.unit }}</td>
+                <td>{{ product.dosage }}</td>
+                <td>{{ product.form }}</td>
+                <td>{{ product.purchaseprice }}</td>
+                <td>{{ product.saleprice }}</td>
+                <td>{{ product.stockmin }}</td>
+                <td>{{ product.isactive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_product_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_product_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_product_new') }}">Create new</a>
+{% endblock %}

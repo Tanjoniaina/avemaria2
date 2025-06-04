@@ -1,0 +1,38 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Purchaseorder{% endblock %}
+
+{% block body %}
+    <h1>Purchaseorder</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ purchaseorder.id }}</td>
+            </tr>
+            <tr>
+                <th>Orderdate</th>
+                <td>{{ purchaseorder.orderdate ? purchaseorder.orderdate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ purchaseorder.status }}</td>
+            </tr>
+            <tr>
+                <th>Referencenumber</th>
+                <td>{{ purchaseorder.referencenumber }}</td>
+            </tr>
+            <tr>
+                <th>Totalamount</th>
+                <td>{{ purchaseorder.totalamount }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">back to list</a>
+
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}">edit</a>
+
+    {{ include('app/pharmaciegros/entity/purchaseorder/_delete_form.html.twig') }}
+{% endblock %}
