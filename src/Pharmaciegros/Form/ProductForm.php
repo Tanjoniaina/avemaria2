@@ -8,7 +8,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 
+#[AsEntityAutocompleteField]
 class ProductForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -26,7 +28,7 @@ class ProductForm extends AbstractType
             ->add('isactive')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }

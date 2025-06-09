@@ -1,4 +1,4 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Purchaseorder{% endblock %}
 
@@ -34,5 +34,5 @@
 
     <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}">edit</a>
 
-    {{ include('app/pharmaciegros/entity/purchaseorder/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/purchaseorder/_delete_form.html.twig') }}
 {% endblock %}

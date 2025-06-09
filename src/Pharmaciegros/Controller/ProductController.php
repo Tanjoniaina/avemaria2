@@ -4,21 +4,25 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Product;
 use App\Pharmaciegros\Form\ProductForm;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/product')]
+#[Route('/pharmaciegros/product')]
 final class ProductController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+        $categories = $categoryRepository->findAllWithProducts();
+
+        return $this->render('pharmaciegros/product/index.html.twig', [
+            'categories' => $categories
         ]);
     }
 
@@ -36,16 +40,40 @@ final class ProductController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/product/new.html.twig', [
+        return $this->render('pharmaciegros/product/new.html.twig', [
             'product' => $product,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/nouveau-rapide', name: 'product_quick_create')]
+    public function quickCreate(Request $request, EntityManagerInterface $em): Response
+    {
+        $product = new Product();
+        $form = $this->createForm(ProductForm::class, $product, [
+            'action' => $this->generateUrl('product_quick_create'),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($product);
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+            ]);
+        }
+
+        return $this->render('pharmaciegros/product/_quick_create_form.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_pharmaciegros_entity_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
-        return $this->render('app/pharmaciegros/entity/product/show.html.twig', [
+        return $this->render('pharmaciegros/product/show.html.twig', [
             'product' => $product,
         ]);
     }
@@ -62,7 +90,7 @@ final class ProductController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/product/edit.html.twig', [
+        return $this->render('pharmaciegros/product/edit.html.twig', [
             'product' => $product,
             'form' => $form,
         ]);
@@ -78,4 +106,6 @@ final class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_pharmaciegros_entity_product_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

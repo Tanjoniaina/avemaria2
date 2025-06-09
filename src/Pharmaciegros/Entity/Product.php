@@ -299,4 +299,14 @@ class Product
 
         return $this;
     }
+
+    public function getCurrentStock(): int
+    {
+        $stock = 0;
+        foreach ($this->getStockmovements() as $movement){
+            $stock += $movement->getQuantity();
+        }
+
+        return $stock;
+    }
 }

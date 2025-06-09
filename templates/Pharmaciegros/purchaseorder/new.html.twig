@@ -1,11 +1,108 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Purchaseorder{% endblock %}
 
+{%  form_theme form _self %}
+
 {% block body %}
-    <h1>Create new Purchaseorder</h1>
+    <h1>Creat Bon de commande</h1>
 
-    {{ include('app/pharmaciegros/entity/purchaseorder/_form.html.twig') }}
+    <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        + Ajouter un produit
+    </button>
 
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">back to list</a>
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" id="product-form-container">
+                <!-- Formulaire chargé en AJAX ici -->
+            </div>
+        </div>
+    </div>
+
+    {{ include('pharmaciegros/purchaseorder/_form.html.twig') }}
+
+{% endblock %}
+
+{% block _purchaseorder_form_ligne_widget %}
+
+    <p>Ici, ajouter les factures</p>
+    {{ form_widget(form) }}
+    <input type="hidden" id="widget-counter" value="0">
+    <div class="form-group">
+        <button type="button" id="add-facture" class="btn btn-primary">Ajouter</button>
+    </div>
+
+{% endblock %}
+
+{% block _purchaseorder_form_ligne_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _purchaseorder_form_ligne_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-2">{{ form_widget(form.product) }}</div>
+
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }} " class="btn btn-danger">X</button>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{%  block javascripts  %}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+        $('#add-facture').click(function (){
+
+            const index = +$('#widget-counter').val();
+            const tmpl = $('#purchaseorder_form_ligne').data('prototype').replace(/__name__/g,index);
+            $('#purchaseorder_form_ligne').append(tmpl);
+            $('#widget-counter').val(index + 1);
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons(){
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove();
+            });
+        }
+        handleDeleteButtons()
+    </script>
+    <script>
+        $(document).ready(function () {
+            function updateMontant(select) {
+                const $select = $(select);
+                const prix = $select.find('option:selected').data('prix');
+
+                // Ex : id = facture_form_ligne_0_tarifActe
+                const id = $select.attr('id');
+                const ligneIndex = id.match(/\d+/)[0]; // récupère 0, 1, 2…
+
+                const $montantInput = $('#purchaseorder_form_ligne_' + ligneIndex + '_montant');
+
+                if (prix !== undefined && $montantInput.length) {
+                    $montantInput.val(prix);
+                }
+            }
+
+            // Pour toutes les lignes existantes au chargement
+            $('[id^="purchaseorder_form_ligne_"][id$="_tarifacte"]').each(function () {
+                updateMontant(this); // met à jour dès le départ si besoin
+            });
+
+            // Lorsqu’on change un tarifActe
+            $(document).on('change', '[id^="purchaseorder_form_ligne_"][id$="_tarifacte"]', function () {
+                updateMontant(this);
+            });
+        });
+
+    </script>
+    <script src="/js/order-product-modal.js" defer></script>
 {% endblock %}

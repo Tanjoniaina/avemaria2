@@ -1,13 +1,13 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
     <h1>Edit Product</h1>
 
-    {{ include('app/pharmaciegros/entity/product/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('pharmaciegros/product/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_pharmaciegros_entity_product_index') }}">back to list</a>
 
-    {{ include('app/pharmaciegros/entity/product/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/product/_delete_form.html.twig') }}
 {% endblock %}

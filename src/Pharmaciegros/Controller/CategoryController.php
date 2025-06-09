@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/category')]
+#[Route('/pharmaciegros/category')]
 final class CategoryController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_category_index', methods: ['GET'])]
     public function index(CategoryRepository $categoryRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/category/index.html.twig', [
+        return $this->render('pharmaciegros/category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class CategoryController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/category/new.html.twig', [
+        return $this->render('pharmaciegros/category/new.html.twig', [
             'category' => $category,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class CategoryController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
-        return $this->render('app/pharmaciegros/entity/category/show.html.twig', [
+        return $this->render('pharmaciegros/category/show.html.twig', [
             'category' => $category,
         ]);
     }
@@ -62,7 +62,7 @@ final class CategoryController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/category/edit.html.twig', [
+        return $this->render('pharmaciegros/category/edit.html.twig', [
             'category' => $category,
             'form' => $form,
         ]);

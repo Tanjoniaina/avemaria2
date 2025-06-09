@@ -1,4 +1,4 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Supplier{% endblock %}
 
@@ -38,5 +38,5 @@
 
     <a href="{{ path('app_pharmaciegros_entity_supplier_edit', {'id': supplier.id}) }}">edit</a>
 
-    {{ include('app/pharmaciegros/entity/supplier/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/supplier/_delete_form.html.twig') }}
 {% endblock %}

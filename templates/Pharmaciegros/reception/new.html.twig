@@ -1,11 +1,11 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Reception{% endblock %}
 
 {% block body %}
     <h1>Create new Reception</h1>
 
-    {{ include('app/pharmaciegros/entity/reception/_form.html.twig') }}
+    {{ include('pharmaciegros/reception/_form.html.twig') }}
 
     <a href="{{ path('app_pharmaciegros_entity_reception_index') }}">back to list</a>
 {% endblock %}

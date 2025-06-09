@@ -34,11 +34,12 @@ class Purchaseorder
      * @var Collection<int, Purchaseorderline>
      */
     #[ORM\OneToMany(targetEntity: Purchaseorderline::class, mappedBy: 'purchaseorder')]
-    private Collection $purchaseorderlines;
+    private Collection $ligne;
 
     public function __construct()
     {
-        $this->purchaseorderlines = new ArrayCollection();
+        $this->ligne = new ArrayCollection();
+        $this->orderdate = new \DateTime();
     }
 
     public function getId(): ?int
@@ -114,22 +115,27 @@ class Purchaseorder
         return $this->purchaseorderlines;
     }
 
-    public function addPurchaseorderline(Purchaseorderline $purchaseorderline): static
+    public function getLigne(): Collection
     {
-        if (!$this->purchaseorderlines->contains($purchaseorderline)) {
-            $this->purchaseorderlines->add($purchaseorderline);
-            $purchaseorderline->setPurchaseorder($this);
+        return $this->ligne;
+    }
+
+    public function addLigne(Purchaseorderline $ligne): static
+    {
+        if (!$this->ligne->contains($ligne)) {
+            $this->ligne->add($ligne);
+            $ligne->setPurchaseorder($this);
         }
 
         return $this;
     }
 
-    public function removePurchaseorderline(Purchaseorderline $purchaseorderline): static
+    public function removeLigne(Purchaseorderline $ligne): static
     {
-        if ($this->purchaseorderlines->removeElement($purchaseorderline)) {
+        if ($this->ligne->removeElement($ligne)) {
             // set the owning side to null (unless already changed)
-            if ($purchaseorderline->getPurchaseorder() === $this) {
-                $purchaseorderline->setPurchaseorder(null);
+            if ($ligne->getPurchaseorder() === $this) {
+                $ligne->setPurchaseorder(null);
             }
         }
 

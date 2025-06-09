@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/reception')]
+#[Route('/pharmaciegros/reception')]
 final class ReceptionController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_reception_index', methods: ['GET'])]
     public function index(ReceptionRepository $receptionRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/reception/index.html.twig', [
+        return $this->render('pharmaciegros/reception/index.html.twig', [
             'receptions' => $receptionRepository->findAll(),
         ]);
     }
@@ -27,6 +27,7 @@ final class ReceptionController extends AbstractController
     {
         $reception = new Reception();
         $form = $this->createForm(ReceptionForm::class, $reception);
+        $reception->setReceiveddate(new \DateTime());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -36,7 +37,7 @@ final class ReceptionController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_reception_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/reception/new.html.twig', [
+        return $this->render('pharmaciegros/reception/new.html.twig', [
             'reception' => $reception,
             'form' => $form,
         ]);
@@ -45,7 +46,7 @@ final class ReceptionController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_reception_show', methods: ['GET'])]
     public function show(Reception $reception): Response
     {
-        return $this->render('app/pharmaciegros/entity/reception/show.html.twig', [
+        return $this->render('pharmaciegros/reception/show.html.twig', [
             'reception' => $reception,
         ]);
     }
@@ -62,7 +63,7 @@ final class ReceptionController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_reception_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/reception/edit.html.twig', [
+        return $this->render('pharmaciegros/reception/edit.html.twig', [
             'reception' => $reception,
             'form' => $form,
         ]);

@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/purchaseorder')]
+#[Route('/pharmaciegros/purchaseorder')]
 final class PurchaseorderController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_purchaseorder_index', methods: ['GET'])]
     public function index(PurchaseorderRepository $purchaseorderRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/purchaseorder/index.html.twig', [
+        return $this->render('pharmaciegros/purchaseorder/index.html.twig', [
             'purchaseorders' => $purchaseorderRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class PurchaseorderController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_purchaseorder_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/purchaseorder/new.html.twig', [
+        return $this->render('pharmaciegros/purchaseorder/new.html.twig', [
             'purchaseorder' => $purchaseorder,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class PurchaseorderController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_purchaseorder_show', methods: ['GET'])]
     public function show(Purchaseorder $purchaseorder): Response
     {
-        return $this->render('app/pharmaciegros/entity/purchaseorder/show.html.twig', [
+        return $this->render('pharmaciegros/purchaseorder/show.html.twig', [
             'purchaseorder' => $purchaseorder,
         ]);
     }
@@ -62,7 +62,7 @@ final class PurchaseorderController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_purchaseorder_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/purchaseorder/edit.html.twig', [
+        return $this->render('pharmaciegros/purchaseorder/edit.html.twig', [
             'purchaseorder' => $purchaseorder,
             'form' => $form,
         ]);

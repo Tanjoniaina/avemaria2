@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/supplier')]
+#[Route('/pharmaciegros/supplier')]
 final class SupplierController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_supplier_index', methods: ['GET'])]
     public function index(SupplierRepository $supplierRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/supplier/index.html.twig', [
+        // TODO "creer bon de commande à partir de liste des fournisseur"
+        return $this->render('pharmaciegros/supplier/index.html.twig', [
             'suppliers' => $supplierRepository->findAll(),
         ]);
     }
@@ -36,7 +37,7 @@ final class SupplierController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_supplier_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/supplier/new.html.twig', [
+        return $this->render('pharmaciegros/supplier/new.html.twig', [
             'supplier' => $supplier,
             'form' => $form,
         ]);
@@ -45,7 +46,7 @@ final class SupplierController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_supplier_show', methods: ['GET'])]
     public function show(Supplier $supplier): Response
     {
-        return $this->render('app/pharmaciegros/entity/supplier/show.html.twig', [
+        return $this->render('pharmaciegros/supplier/show.html.twig', [
             'supplier' => $supplier,
         ]);
     }
@@ -62,7 +63,7 @@ final class SupplierController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_supplier_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/supplier/edit.html.twig', [
+        return $this->render('pharmaciegros/supplier/edit.html.twig', [
             'supplier' => $supplier,
             'form' => $form,
         ]);

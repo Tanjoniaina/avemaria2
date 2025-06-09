@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class PurchaseorderlineForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -18,13 +19,11 @@ class PurchaseorderlineForm extends AbstractType
             ->add('quantityordered')
             ->add('unitprice')
             ->add('subtotal')
-            ->add('purchaseorder', EntityType::class, [
-                'class' => Purchaseorder::class,
-                'choice_label' => 'id',
-            ])
             ->add('product', EntityType::class, [
                 'class' => Product::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'autocomplete' => true,
+
             ])
         ;
     }

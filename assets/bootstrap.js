@@ -1,5 +1,5 @@
-//import { startStimulusApp } from '@symfony/stimulus-bundle';
+import { Application } from 'stimulus'; // Import de Stimulus
+import { startStimulusApp } from '@symfony/stimulus-bridge'; // Initialisation Symfony Bridge
+import '@symfony/ux-autocomplete'; // Pour l'autocomplétion
 
-//const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+const app = startStimulusApp();
