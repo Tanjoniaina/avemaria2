@@ -21,6 +21,7 @@
 
     {{ include('pharmaciegros/purchaseorder/_form.html.twig') }}
 
+
 {% endblock %}
 
 {% block _purchaseorder_form_ligne_widget %}
@@ -57,9 +58,84 @@
     </div>
 {% endblock %}
 
+
 {%  block javascripts  %}
-{{ parent() }}
-    
-  
-    
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButton = document.getElementById('add-facture');
+            const collection = document.getElementById('purchaseorder_form_ligne');
+            const counter = document.getElementById('widget-counter');
+
+            if (addButton && collection && counter) {
+                addButton.addEventListener('click', () => {
+                    const index = parseInt(counter.value);
+                    const prototype = collection.dataset.prototype;
+                    const newForm = prototype.replace(/__name__/g, index);
+
+                    const temp = document.createElement('div');
+                    temp.innerHTML = newForm;
+                    const formElement = temp.firstElementChild;
+
+                    collection.appendChild(formElement);
+                    counter.value = index + 1;
+
+                    handleDeleteButtons();
+
+                });
+            }
+
+            function handleDeleteButtons() {
+                document.querySelectorAll('button[data-action="delete"]').forEach(button => {
+                    button.onclick = () => {
+                        const target = document.querySelector(button.dataset.target);
+                        target?.remove();
+                    };
+                });
+            }
+
+            initAutocompletePriceBinding();
+
+            // 🆕 Fonction pour gérer le remplissage auto du prix
+            function initAutocompletePriceBinding() {
+                // On cible l'élément original : le champ Symfony avec id sans `-ts-control`
+                document.querySelectorAll('input[id^="purchaseorder_form_ligne_"][id$="_product"]').forEach(input => {
+                    input.addEventListener('autocomplete:change', function (event) {
+                        console.log('🚀 Event autocomplete:change déclenché');
+                        console.log('🧾 event.detail.item =', event.detail.item);
+
+                        const selectedOption = event.detail.item;
+                        const prix = selectedOption?.data?.prix;
+
+                        if (prix !== undefined) {
+                            const inputId = input.getAttribute('id');
+                            const match = inputId.match(/\d+/);
+                            if (match) {
+                                const index = match[0];
+                                const prixField = document.querySelector(`#purchaseorder_form_ligne_${index}_unitprice`);
+                                if (prixField) {
+                                    prixField.value = prix;
+                                    console.log('✅ Prix injecté dans unitprice');
+                                } else {
+                                    console.warn('❌ Champ unitprice introuvable');
+                                }
+                            }
+                        } else {
+                            console.warn('❌ Prix non trouvé dans event.detail.item.data');
+                        }
+                    });
+                });
+            }
+
+
+
+            // Initialisation au chargement de la page
+            handleDeleteButtons();
+            initAutocompletePriceBinding();
+        });
+    </script>
+
+
+    <script src="/js/order-product-modal.js" defer></script>
 {% endblock %}

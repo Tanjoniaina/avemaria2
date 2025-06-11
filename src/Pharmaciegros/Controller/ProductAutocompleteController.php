@@ -2,17 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
-final class ProductAutocompleteController extends AbstractController
+class ProductAutocompleteController extends AbstractController
 {
-    #[Route('/product/autocomplete', name: 'app_product_autocomplete')]
-    public function index(): Response
+    #[Route('/autocomplete/product', name: 'autocomplete_product')]
+    public function __invoke(Request $request, ProductRepository $productRepo): JsonResponse
     {
-        return $this->render('product_autocomplete/index.html.twig', [
-            'controller_name' => 'ProductAutocompleteController',
-        ]);
+        $query = $request->query->get('query', '');
+
+        $products = $productRepo->createQueryBuilder('p')
+            ->where('p.name LIKE :q')
+            ->setParameter('q', '%' . $query . '%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+
+        return new JsonResponse(array_map(fn(Product $product) => [
+            'value' => $product->getId(),
+            'label' => $product->getName(),
+            'data' => [
+                'prix' => $product->getPurchasePrice(),
+            ],
+        ], $products));
     }
 }
