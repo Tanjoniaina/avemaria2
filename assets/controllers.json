@@ -20,6 +20,10 @@
                 "enabled": false,
                 "fetch": "eager"
             }
+        },
+        "order": {
+            "enabled": true,
+            "fetch": "eager"
         }
     },
     "entrypoints": []
