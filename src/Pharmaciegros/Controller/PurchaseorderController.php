@@ -25,11 +25,22 @@ final class PurchaseorderController extends AbstractController
     #[Route('/new', name: 'app_pharmaciegros_entity_purchaseorder_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // TODO ajout produit automatique dans le champs choix produit
+        // TODO Prix automatique et subtotal automatique en js
         $purchaseorder = new Purchaseorder();
         $form = $this->createForm(PurchaseorderForm::class, $purchaseorder);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($purchaseorder->getLigne() as $ligne) {
+                $ligne->setPurchaseorder($purchaseorder);
+                $ligne->setProduct($ligne->getProduct());
+                $ligne->setQuantityordered($ligne->getQuantityordered());
+                $ligne->setQuantityordered($ligne->getUnitprice());
+                $ligne->setSubtotal($ligne->getUnitprice() * $ligne->getQuantityordered());
+                $entityManager->persist($ligne);
+            }
             $entityManager->persist($purchaseorder);
             $entityManager->flush();
 

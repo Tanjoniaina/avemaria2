@@ -82,7 +82,7 @@
                     counter.value = index + 1;
 
                     handleDeleteButtons();
-
+                    initAutocompletePriceBinding(formElement); // ✅ on passe la ligne
                 });
             }
 
@@ -95,47 +95,53 @@
                 });
             }
 
-            initAutocompletePriceBinding();
+            /**
+             * Injecte le prix dans le champ unitprice d'une ligne donnée
+             */
+            function initAutocompletePriceBinding(formElement) {
+                const productField = formElement.querySelector('[id$="_product"]');
 
-            // 🆕 Fonction pour gérer le remplissage auto du prix
-            function initAutocompletePriceBinding() {
-                // On cible l'élément original : le champ Symfony avec id sans `-ts-control`
-                document.querySelectorAll('input[id^="purchaseorder_form_ligne_"][id$="_product"]').forEach(input => {
-                    input.addEventListener('autocomplete:change', function (event) {
-                        console.log('🚀 Event autocomplete:change déclenché');
-                        console.log('🧾 event.detail.item =', event.detail.item);
+                if (!productField) {
+                    console.warn('❌ Champ product introuvable dans la ligne.');
+                    return;
+                }
 
-                        const selectedOption = event.detail.item;
-                        const prix = selectedOption?.data?.prix;
+                console.log('🧪 Champ product détecté :', productField.id);
 
-                        if (prix !== undefined) {
-                            const inputId = input.getAttribute('id');
-                            const match = inputId.match(/\d+/);
-                            if (match) {
-                                const index = match[0];
-                                const prixField = document.querySelector(`#purchaseorder_form_ligne_${index}_unitprice`);
-                                if (prixField) {
-                                    prixField.value = prix;
-                                    console.log('✅ Prix injecté dans unitprice');
-                                } else {
-                                    console.warn('❌ Champ unitprice introuvable');
-                                }
+                productField.addEventListener('autocomplete:change', function (event) {
+                    const selectedOption = event.detail.item;
+                    const prix = selectedOption?.data?.prix;
+
+                    console.log('💸 Prix reçu :', prix);
+
+                    if (prix !== undefined) {
+                        const inputId = productField.getAttribute('id');
+                        const match = inputId.match(/\d+/);
+                        if (match) {
+                            const index = match[0];
+                            const prixField = document.querySelector(`#purchaseorder_form_ligne_${index}_unitprice`);
+                            if (prixField) {
+                                prixField.value = prix;
+                                console.log('✅ Prix injecté dans unitprice');
+                            } else {
+                                console.warn('❌ Champ unitprice introuvable');
                             }
-                        } else {
-                            console.warn('❌ Prix non trouvé dans event.detail.item.data');
                         }
-                    });
+                    }
                 });
             }
 
+            // Initialiser sur les lignes déjà présentes au chargement
+            document.querySelectorAll('[id^="purchaseorder_form_ligne_"][id$="_product"]').forEach(input => {
+                const parentLine = input.closest('.form-group') || input.closest('.row');
+                if (parentLine) {
+                    initAutocompletePriceBinding(parentLine);
+                }
+            });
 
-
-            // Initialisation au chargement de la page
             handleDeleteButtons();
-            initAutocompletePriceBinding();
         });
     </script>
-
 
     <script src="/js/order-product-modal.js" defer></script>
 {% endblock %}

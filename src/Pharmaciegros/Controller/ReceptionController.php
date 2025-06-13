@@ -4,6 +4,7 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Reception;
 use App\Pharmaciegros\Form\ReceptionForm;
+use App\Repository\PurchaseorderRepository;
 use App\Repository\ReceptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,22 +16,27 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ReceptionController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_reception_index', methods: ['GET'])]
-    public function index(ReceptionRepository $receptionRepository): Response
+    public function index(PurchaseorderRepository $purchaseorderRepository): Response
     {
+        $bondecommande = $purchaseorderRepository->findBy(['status'=>'envoye']);
+
         return $this->render('pharmaciegros/reception/index.html.twig', [
-            'receptions' => $receptionRepository->findAll(),
+            'bondecommande' => $bondecommande
         ]);
     }
 
-    #[Route('/new', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository): Response
     {
         $reception = new Reception();
+        $reception->setReceiveddate(new \DateTime());
         $form = $this->createForm(ReceptionForm::class, $reception);
         $reception->setReceiveddate(new \DateTime());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $reception->getPurchaseorder($purchaseorderRepository->find($bondecommande));
             $entityManager->persist($reception);
             $entityManager->flush();
 
