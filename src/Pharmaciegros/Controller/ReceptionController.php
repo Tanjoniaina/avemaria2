@@ -4,6 +4,7 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Reception;
 use App\Pharmaciegros\Entity\Receptionline;
+use App\Pharmaciegros\Entity\Stockmovement;
 use App\Pharmaciegros\Form\ReceptionForm;
 use App\Repository\PurchaseorderRepository;
 use App\Repository\ReceptionRepository;
@@ -34,7 +35,6 @@ final class ReceptionController extends AbstractController
         $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
 
         foreach ($purchaseOrder->getLigne() as $poLine) {
-
             $receptionLine = new Receptionline();
             $receptionLine->setProduct($poLine->getProduct());
             $receptionLine->setQuantityReceived($poLine->getQuantityOrdered());
@@ -48,6 +48,13 @@ final class ReceptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach($reception->getLigne() as $ligne) {
+                $stockmouvement = new Stockmovement();
+                $stockmouvement->setProduct($ligne->getProduct());
+                $stockmouvement->setQuantity($ligne->getquantityReceived());
+                $stockmouvement->setMovementdate(new \DateTime());
+                $stockmouvement->setType("RECEPTION");
+                $stockmouvement->setComment('Réception bon de commande #' . $purchaseOrder->getReferencenumber());
+                $entityManager->persist($stockmouvement);
 
                 $ligne->setReception($reception);
                 $ligne->getProduct()->getId();

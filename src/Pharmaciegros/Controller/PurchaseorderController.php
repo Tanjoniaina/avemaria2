@@ -38,7 +38,7 @@ final class PurchaseorderController extends AbstractController
                 $ligne->setPurchaseorder($purchaseorder);
                 $ligne->setProduct($ligne->getProduct());
                 $ligne->setQuantityordered($ligne->getQuantityordered());
-                $ligne->setQuantityordered($ligne->getUnitprice());
+                $ligne->setUnitprice($ligne->getUnitprice());
                 $ligne->setSubtotal($ligne->getUnitprice() * $ligne->getQuantityordered());
                 $entityManager->persist($ligne);
             }
