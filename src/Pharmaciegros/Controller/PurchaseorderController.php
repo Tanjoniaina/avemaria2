@@ -4,6 +4,7 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Purchaseorder;
 use App\Pharmaciegros\Form\PurchaseorderForm;
+use App\Repository\PurchaseorderlineRepository;
 use App\Repository\PurchaseorderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,10 +55,12 @@ final class PurchaseorderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_pharmaciegros_entity_purchaseorder_show', methods: ['GET'])]
-    public function show(Purchaseorder $purchaseorder): Response
+    public function show(Purchaseorder $purchaseorder, PurchaseorderlineRepository $purchaseorderlineRepository): Response
     {
+        $lignebondecommande = $purchaseorderlineRepository->findBy(['purchaseorder' => $purchaseorder]);
         return $this->render('pharmaciegros/purchaseorder/show.html.twig', [
             'purchaseorder' => $purchaseorder,
+            'linepurchaseorder' => $lignebondecommande
         ]);
     }
 

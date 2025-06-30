@@ -3,6 +3,7 @@
 namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Reception;
+use App\Pharmaciegros\Entity\Receptionline;
 use App\Pharmaciegros\Form\ReceptionForm;
 use App\Repository\PurchaseorderRepository;
 use App\Repository\ReceptionRepository;
@@ -30,13 +31,32 @@ final class ReceptionController extends AbstractController
     {
         $reception = new Reception();
         $reception->setReceiveddate(new \DateTime());
+        $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
+
+        foreach ($purchaseOrder->getLigne() as $poLine) {
+
+            $receptionLine = new Receptionline();
+            $receptionLine->setProduct($poLine->getProduct());
+            $receptionLine->setQuantityReceived($poLine->getQuantityOrdered());
+            $reception->addLigne($receptionLine);
+        }
+
         $form = $this->createForm(ReceptionForm::class, $reception);
         $reception->setReceiveddate(new \DateTime());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $reception->getPurchaseorder($purchaseorderRepository->find($bondecommande));
+            foreach($reception->getLigne() as $ligne) {
+
+                $ligne->setReception($reception);
+                $ligne->getProduct()->getId();
+                $ligne->setQuantityReceived($ligne->getquantityReceived());
+                $entityManager->persist($ligne);
+            }
+
+            $purchaseOrder->setStatus('termine');
+            $entityManager->persist($purchaseOrder);
             $entityManager->persist($reception);
             $entityManager->flush();
 

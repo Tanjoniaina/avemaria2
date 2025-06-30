@@ -29,8 +29,28 @@
             </tr>
         </tbody>
     </table>
+    <h3>Ligne produit</h3>
 
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">back to list</a>
+    <table class="table">
+        <tbody>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Sous-Total</th>
+            {% for l in linepurchaseorder %}
+                <tr>
+                    <td>{{ l.product.name }}</td>
+                    <td>{{ l.quantityordered }}</td>
+                    <td>{{ l.unitprice }}</td>
+                    <td>{{ l.subtotal}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+
+
 
     <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}">edit</a>
 

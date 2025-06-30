@@ -3,6 +3,8 @@
 namespace App\Pharmaciegros\Entity;
 
 use App\Repository\ReceptionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceptionRepository::class)]
@@ -21,6 +23,44 @@ class Reception
 
     #[ORM\Column(length: 20)]
     private ?string $status = null;
+
+    /**
+     * @var Collection<int, Receptionline>
+     */
+    #[ORM\OneToMany(targetEntity: Receptionline::class, mappedBy: 'reception')]
+    private Collection $ligne;
+
+    public function __construct()
+    {
+        $this->ligne = new ArrayCollection();
+    }
+
+    public function getLigne(): Collection
+    {
+        return $this->ligne;
+    }
+
+    public function addLigne(Receptionline $ligne): static
+    {
+        if (!$this->ligne->contains($ligne)) {
+            $this->ligne->add($ligne);
+            $ligne->setReception($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigne(Receptionline $ligne): static
+    {
+        if ($this->ligne->removeElement($ligne)) {
+            // set the owning side to null (unless already changed)
+            if ($ligne->getReception() === $this) {
+                $ligne->setReception(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -62,4 +102,5 @@ class Reception
 
         return $this;
     }
+
 }

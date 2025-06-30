@@ -7,6 +7,7 @@ use App\Pharmaciegros\Entity\Reception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,14 @@ class ReceptionForm extends AbstractType
                     'Total' => 'Total',
                 ]
             ])
+            ->add('ligne',CollectionType::class,
+                [
+                    'entry_type' => ReceptionlineForm::class,
+                    'allow_add' => true,
+                    'allow_delete' => true, // ✅ ici
+                    'by_reference' => false,
+                ]
+            )
 
         ;
     }

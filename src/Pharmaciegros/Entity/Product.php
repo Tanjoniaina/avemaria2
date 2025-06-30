@@ -66,11 +66,18 @@ class Product
     #[ORM\OneToMany(targetEntity: Stockmovement::class, mappedBy: 'product')]
     private Collection $stockmovements;
 
+    /**
+     * @var Collection<int, Receptionline>
+     */
+    #[ORM\OneToMany(targetEntity: Receptionline::class, mappedBy: 'product')]
+    private Collection $receptionlines;
+
     public function __construct()
     {
         $this->quantityordered = new ArrayCollection();
         $this->dispensations = new ArrayCollection();
         $this->stockmovements = new ArrayCollection();
+        $this->receptionlines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,5 +315,35 @@ class Product
         }
 
         return $stock;
+    }
+
+    /**
+     * @return Collection<int, Receptionline>
+     */
+    public function getReceptionlines(): Collection
+    {
+        return $this->receptionlines;
+    }
+
+    public function addReceptionline(Receptionline $receptionline): static
+    {
+        if (!$this->receptionlines->contains($receptionline)) {
+            $this->receptionlines->add($receptionline);
+            $receptionline->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceptionline(Receptionline $receptionline): static
+    {
+        if ($this->receptionlines->removeElement($receptionline)) {
+            // set the owning side to null (unless already changed)
+            if ($receptionline->getProduct() === $this) {
+                $receptionline->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }
