@@ -2,6 +2,7 @@
 
 namespace App\Pharmaciegros\Entity;
 
+use App\Pharmaciegros\Entity\Location;
 use App\Repository\StockmovementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +28,9 @@ class Stockmovement
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'stockmovement')]
+    private ?Location $location = null;
 
     public function getId(): ?int
     {
@@ -89,6 +93,18 @@ class Stockmovement
     public function setComment(?string $comment): static
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }

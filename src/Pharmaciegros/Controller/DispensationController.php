@@ -17,7 +17,7 @@ final class DispensationController extends AbstractController
     #[Route(name: 'app_pharmaciegros_entity_dispensation_index', methods: ['GET'])]
     public function index(DispensationRepository $dispensationRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/dispensation/index.html.twig', [
+        return $this->render('pharmaciegros/dispensation/index.html.twig', [
             'dispensations' => $dispensationRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class DispensationController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_dispensation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/dispensation/new.html.twig', [
+        return $this->render('pharmaciegros/dispensation/new.html.twig', [
             'dispensation' => $dispensation,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ final class DispensationController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_dispensation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/dispensation/edit.html.twig', [
+        return $this->render('pharmaciegros/dispensation/edit.html.twig', [
             'dispensation' => $dispensation,
             'form' => $form,
         ]);

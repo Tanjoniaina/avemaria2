@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Pharmaciegros\Form;
+
+use App\Pharmaciegros\Entity\Location;
+use App\Pharmaciegros\Entity\Supplier;
+use App\Pharmaciegros\Entity\Transfer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class TransferForm extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('status')
+            ->add('transfertDate')
+            ->add('comment')
+            ->add('sourceLocation', EntityType::class, [
+                'class' => Location::class,
+                'choice_label' => 'id',
+            ])
+            ->add('destinationLocation', EntityType::class, [
+                'class' => Location::class,
+                'choice_label' => 'id',
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Transfer::class,
+        ]);
+    }
+}

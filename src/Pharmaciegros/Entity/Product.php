@@ -72,12 +72,19 @@ class Product
     #[ORM\OneToMany(targetEntity: Receptionline::class, mappedBy: 'product')]
     private Collection $receptionlines;
 
+    /**
+     * @var Collection<int, TransferLine>
+     */
+    #[ORM\OneToMany(targetEntity: TransferLine::class, mappedBy: 'product')]
+    private Collection $transferLines;
+
     public function __construct()
     {
         $this->quantityordered = new ArrayCollection();
         $this->dispensations = new ArrayCollection();
         $this->stockmovements = new ArrayCollection();
         $this->receptionlines = new ArrayCollection();
+        $this->transferLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -341,6 +348,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($receptionline->getProduct() === $this) {
                 $receptionline->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransferLine>
+     */
+    public function getTransferLines(): Collection
+    {
+        return $this->transferLines;
+    }
+
+    public function addTransferLine(TransferLine $transferLine): static
+    {
+        if (!$this->transferLines->contains($transferLine)) {
+            $this->transferLines->add($transferLine);
+            $transferLine->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransferLine(TransferLine $transferLine): static
+    {
+        if ($this->transferLines->removeElement($transferLine)) {
+            // set the owning side to null (unless already changed)
+            if ($transferLine->getProduct() === $this) {
+                $transferLine->setProduct(null);
             }
         }
 

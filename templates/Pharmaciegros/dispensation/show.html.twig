@@ -1,4 +1,4 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Dispensation{% endblock %}
 
@@ -30,5 +30,5 @@
 
     <a href="{{ path('app_pharmaciegros_entity_dispensation_edit', {'id': dispensation.id}) }}">edit</a>
 
-    {{ include('app/pharmaciegros/entity/dispensation/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/dispensation/_delete_form.html.twig') }}
 {% endblock %}
