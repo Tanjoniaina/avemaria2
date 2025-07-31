@@ -34,11 +34,11 @@ class Transfer
      * @var Collection<int, TransferLine>
      */
     #[ORM\OneToMany(targetEntity: TransferLine::class, mappedBy: 'transfert')]
-    private Collection $transferLines;
+    private Collection $ligne;
 
     public function __construct()
     {
-        $this->transferLines = new ArrayCollection();
+        $this->ligne = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,27 +109,27 @@ class Transfer
     /**
      * @return Collection<int, TransferLine>
      */
-    public function getTransferLines(): Collection
+    public function getLigne(): Collection
     {
-        return $this->transferLines;
+        return $this->ligne;
     }
 
-    public function addTransferLine(TransferLine $transferLine): static
+    public function addLigne(TransferLine $ligne): static
     {
-        if (!$this->transferLines->contains($transferLine)) {
-            $this->transferLines->add($transferLine);
-            $transferLine->setTransfert($this);
+        if (!$this->ligne->contains($ligne)) {
+            $this->ligne->add($ligne);
+            $ligne->setTransfert($this);
         }
 
         return $this;
     }
 
-    public function removeTransferLine(TransferLine $transferLine): static
+    public function removeLigne(TransferLine $ligne): static
     {
-        if ($this->transferLines->removeElement($transferLine)) {
+        if ($this->ligne->removeElement($ligne)) {
             // set the owning side to null (unless already changed)
-            if ($transferLine->getTransfert() === $this) {
-                $transferLine->setTransfert(null);
+            if ($ligne->getTransfert() === $this) {
+                $ligne->setTransfert(null);
             }
         }
 

@@ -7,6 +7,7 @@ use App\Pharmaciegros\Entity\Supplier;
 use App\Pharmaciegros\Entity\Transfer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,6 +26,12 @@ class TransferForm extends AbstractType
             ->add('destinationLocation', EntityType::class, [
                 'class' => Location::class,
                 'choice_label' => 'id',
+            ])
+            ->add('ligne', CollectionType::class,[
+                'entry_type' => PurchaseorderlineForm::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }

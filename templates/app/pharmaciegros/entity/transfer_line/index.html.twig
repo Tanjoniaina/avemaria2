@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransferLine index{% endblock %}
+
+{% block body %}
+    <h1>TransferLine index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transfer_line in transfer_lines %}
+            <tr>
+                <td>{{ transfer_line.id }}</td>
+                <td>{{ transfer_line.quantity }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_transfer_line_show', {'id': transfer_line.id}) }}">show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_transfer_line_edit', {'id': transfer_line.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_transfer_line_new') }}">Create new</a>
+{% endblock %}
