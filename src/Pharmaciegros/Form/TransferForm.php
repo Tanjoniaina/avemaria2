@@ -28,7 +28,7 @@ class TransferForm extends AbstractType
                 'choice_label' => 'id',
             ])
             ->add('ligne', CollectionType::class,[
-                'entry_type' => PurchaseorderlineForm::class,
+                'entry_type' => TransferLineForm::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

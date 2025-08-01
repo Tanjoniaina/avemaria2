@@ -16,13 +16,11 @@ class TransferLineForm extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('transfert', EntityType::class, [
-                'class' => Transfer::class,
-                'choice_label' => 'id',
-            ])
             ->add('product', EntityType::class, [
                 'class' => Product::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'autocomplete' => true,
+
             ])
         ;
     }

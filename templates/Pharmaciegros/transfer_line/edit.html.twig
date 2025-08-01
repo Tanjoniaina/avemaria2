@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit TransferLine</h1>
 
-    {{ include('app/pharmaciegros/entity/transfer_line/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('pharmaciegros/transfer_line/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_pharmaciegros_entity_transfer_line_index') }}">back to list</a>
 
-    {{ include('app/pharmaciegros/entity/transfer_line/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/transfer_line/_delete_form.html.twig') }}
 {% endblock %}

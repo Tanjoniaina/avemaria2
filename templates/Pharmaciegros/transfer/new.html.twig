@@ -5,7 +5,75 @@
 {% block body %}
     <h1>Create new Transfer</h1>
 
-    {{ include('pharmaciegros/transfer/_form.html.twig') }}
+    {{ form_start(form) }}
+
+    <div id="transfer_lines_wrapper"
+         data-prototype="{{ form_widget(form.ligne.vars.prototype)|e('html_attr') }}">
+    </div>
+
+    <button type="button" id="add-transfer-line" class="btn btn-sm btn-outline-primary">
+        + Ajouter un produit
+    </button>
+
+    <button type="submit" class="btn btn-success mt-3">Valider le transfert</button>
+
+    {{ form_end(form) }}
+
 
     <a href="{{ path('app_pharmaciegros_entity_transfer_index') }}">back to list</a>
+{% endblock %}
+
+{%  block javascripts  %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButton = document.getElementById('add-transfer-line');
+            const collectionWrapper = document.getElementById('transfer_lines_wrapper');
+
+            function refreshStimulusAutocomplete() {
+                import('@hotwired/stimulus').then(({ Application }) => {
+                    const app = Application.start();
+                    app.enhance(); // Stimulus 3 : réactive tous les data-controller
+                }).catch((err) => {
+                    console.error('❌ Impossible de recharger Stimulus :', err);
+                });
+            }
+
+            if (!addButton || !collectionWrapper) {
+                console.warn('⚠️ Élément de formulaire de transfert manquant');
+                return;
+            }
+
+            let index = collectionWrapper.querySelectorAll('.transfer-line-block').length;
+
+            addButton.addEventListener('click', () => {
+                const prototype = collectionWrapper.dataset.prototype;
+
+                if (!prototype) {
+                    console.error('❌ data-prototype manquant sur le wrapper');
+                    return;
+                }
+
+                const newFormHtml = prototype.replace(/__name__/g, index);
+                const temp = document.createElement('div');
+                temp.classList.add('transfer-line-block');
+                temp.innerHTML = newFormHtml;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Supprimer';
+                removeButton.type = 'button';
+                removeButton.classList.add('btn', 'btn-sm', 'btn-danger', 'ms-2');
+                removeButton.addEventListener('click', () => {
+                    temp.remove();
+                });
+
+                temp.appendChild(removeButton);
+                collectionWrapper.appendChild(temp);
+                index++;
+
+                refreshStimulusAutocomplete();
+
+            });
+        });
+
+    </script>
 {% endblock %}
