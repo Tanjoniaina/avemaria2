@@ -1,4 +1,4 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Invoice{% endblock %}
 
@@ -38,5 +38,5 @@
 
     <a href="{{ path('app_pharmaciegros_entity_invoice_edit', {'id': invoice.id}) }}">edit</a>
 
-    {{ include('app/pharmaciegros/entity/invoice/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/invoice/_delete_form.html.twig') }}
 {% endblock %}

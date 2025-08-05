@@ -25,6 +25,8 @@ class ProductForm extends AbstractType
             ->add('purchaseprice')
             ->add('saleprice')
             ->add('stockmin')
+            ->add('batch')
+            ->add('peremption')
             ->add('isactive')
             ->add('category', EntityType::class, [
                 'class' => Category::class,

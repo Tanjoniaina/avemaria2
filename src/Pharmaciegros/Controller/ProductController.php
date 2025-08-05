@@ -4,7 +4,9 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Product;
 use App\Pharmaciegros\Form\ProductForm;
+use App\Pharmaciegros\Service\StockManager;
 use App\Repository\CategoryRepository;
+use App\Repository\LocationRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,9 +19,17 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProductController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, StockManager $stockManager): Response
     {
         $categories = $categoryRepository->findAllWithProducts();
+        $pharmaciedegros = $locationRepository->findOneBy(['name'=>'Pharmacie']);
+
+        foreach ($categories as $category) {
+            foreach ($category->getProducts() as $product) {
+                $stock = $stockManager->getStockActuel($product, $pharmaciedegros);
+                $product->stockAtPharmacy = $stock;
+            }
+        }
 
         return $this->render('pharmaciegros/product/index.html.twig', [
             'categories' => $categories

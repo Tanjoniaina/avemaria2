@@ -52,7 +52,7 @@ final class ReceptionController extends AbstractController
                 $stockmouvement->setProduct($ligne->getProduct());
                 $stockmouvement->setQuantity($ligne->getquantityReceived());
                 $stockmouvement->setMovementdate(new \DateTime());
-                $stockmouvement->setType("RECEPTION");
+                $stockmouvement->setType("ENTREE");
                 $stockmouvement->setComment('Réception bon de commande #' . $purchaseOrder->getReferencenumber());
                 $entityManager->persist($stockmouvement);
 

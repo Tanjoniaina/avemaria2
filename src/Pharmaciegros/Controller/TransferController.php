@@ -2,8 +2,10 @@
 
 namespace App\Pharmaciegros\Controller;
 
+use App\Pharmaciegros\Entity\Stockmovement;
 use App\Pharmaciegros\Entity\Transfer;
 use App\Pharmaciegros\Form\TransferForm;
+use App\Pharmaciegros\Service\StockManager;
 use App\Repository\TransferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +32,14 @@ final class TransferController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($transfer->getLigne() as $ligne) {
+                $ligne->setTransfert($transfer);
+                $ligne->setProduct($ligne->getProduct());
+                $ligne->setQuantity($ligne->getQuantity());
+                $entityManager->persist($ligne);
+            }
+
             $entityManager->persist($transfer);
             $entityManager->flush();
 
@@ -41,6 +51,29 @@ final class TransferController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/transfert/attentevalidation', name: 'transfert_enattente')]
+    public function Transfetenattente(TransferRepository $transferRepository): Response
+    {
+        //TODO atao specifique isaky ny service
+        $transfert = $transferRepository->findBy(['status'=>'Envoyé']);
+
+        return $this->render('pharmaciegros/transfer/enattente.html.twig', [
+            'transfert' => $transfert,
+        ]);
+    }
+
+
+    #[Route('/transfert/{id}/valider', name: 'transfert_valider')]
+    public function valider(Transfer $transfert, StockManager $stockManager): Response
+    {
+        $transfert->setStatus('Reçu');
+        $stockManager->applyTransfert($transfert);
+
+        return $this->redirectToRoute('app_pharmaciegros_entity_transfer_index');
+    }
+
+
 
     #[Route('/{id}', name: 'app_pharmaciegros_entity_transfer_show', methods: ['GET'])]
     public function show(Transfer $transfer): Response

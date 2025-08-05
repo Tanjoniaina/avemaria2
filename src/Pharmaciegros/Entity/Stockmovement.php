@@ -32,6 +32,11 @@ class Stockmovement
     #[ORM\ManyToOne(inversedBy: 'stockmovement')]
     private ?Location $location = null;
 
+    public function __construct()
+    {
+        $this->movementdate = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

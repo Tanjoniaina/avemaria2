@@ -39,6 +39,7 @@ class Transfer
     public function __construct()
     {
         $this->ligne = new ArrayCollection();
+        $this->transfertDate = new \DateTime();
     }
 
     public function getId(): ?int

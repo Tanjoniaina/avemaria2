@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/stockmovement')]
+#[Route('/pharmaciegros/stockmovement')]
 final class StockmovementController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_stockmovement_index', methods: ['GET'])]
     public function index(StockmovementRepository $stockmovementRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/stockmovement/index.html.twig', [
+        return $this->render('pharmaciegros/stockmovement/index.html.twig', [
             'stockmovements' => $stockmovementRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class StockmovementController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_stockmovement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/stockmovement/new.html.twig', [
+        return $this->render('pharmaciegros/stockmovement/new.html.twig', [
             'stockmovement' => $stockmovement,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class StockmovementController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_stockmovement_show', methods: ['GET'])]
     public function show(Stockmovement $stockmovement): Response
     {
-        return $this->render('app/pharmaciegros/entity/stockmovement/show.html.twig', [
+        return $this->render('pharmaciegros/stockmovement/show.html.twig', [
             'stockmovement' => $stockmovement,
         ]);
     }
@@ -62,7 +62,7 @@ final class StockmovementController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_stockmovement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/stockmovement/edit.html.twig', [
+        return $this->render('pharmaciegros/stockmovement/edit.html.twig', [
             'stockmovement' => $stockmovement,
             'form' => $form,
         ]);
