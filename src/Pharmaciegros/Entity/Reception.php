@@ -30,6 +30,9 @@ class Reception
     #[ORM\OneToMany(targetEntity: Receptionline::class, mappedBy: 'reception')]
     private Collection $ligne;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Invoice $invoice = null;
+
     public function __construct()
     {
         $this->ligne = new ArrayCollection();
@@ -99,6 +102,18 @@ class Reception
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(?Invoice $invoice): static
+    {
+        $this->invoice = $invoice;
 
         return $this;
     }

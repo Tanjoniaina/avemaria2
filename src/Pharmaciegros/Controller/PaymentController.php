@@ -4,6 +4,7 @@ namespace App\Pharmaciegros\Controller;
 
 use App\Pharmaciegros\Entity\Payment;
 use App\Pharmaciegros\Form\PaymentForm;
+use App\Repository\InvoiceRepository;
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,19 +12,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/payment')]
+#[Route('/pharmaciegros/payment')]
 final class PaymentController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_payment_index', methods: ['GET'])]
-    public function index(PaymentRepository $paymentRepository): Response
+    public function index(PaymentRepository $paymentRepository,InvoiceRepository $invoiceRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/payment/index.html.twig', [
+        $facture = $invoiceRepository->findEnAttenteDePaiement();
+        return $this->render('pharmaciegros/payment/index.html.twig', [
             'payments' => $paymentRepository->findAll(),
+            'facture' => $facture
         ]);
     }
 
-    #[Route('/new', name: 'app_pharmaciegros_entity_payment_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{invoice}', name: 'app_pharmaciegros_entity_payment_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, $invoice): Response
     {
         $payment = new Payment();
         $form = $this->createForm(PaymentForm::class, $payment);
@@ -36,7 +39,7 @@ final class PaymentController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_payment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/payment/new.html.twig', [
+        return $this->render('pharmaciegros/payment/new.html.twig', [
             'payment' => $payment,
             'form' => $form,
         ]);
@@ -45,7 +48,7 @@ final class PaymentController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_payment_show', methods: ['GET'])]
     public function show(Payment $payment): Response
     {
-        return $this->render('app/pharmaciegros/entity/payment/show.html.twig', [
+        return $this->render('pharmaciegros/payment/show.html.twig', [
             'payment' => $payment,
         ]);
     }
@@ -62,7 +65,7 @@ final class PaymentController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_payment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/payment/edit.html.twig', [
+        return $this->render('pharmaciegros/payment/edit.html.twig', [
             'payment' => $payment,
             'form' => $form,
         ]);

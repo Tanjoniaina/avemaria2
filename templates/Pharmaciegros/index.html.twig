@@ -5,12 +5,14 @@
 {% block body %}
     <a href="{{ path('app_pharmaciegros_entity_product_index') }}">Catalogue de Produit</a><br>
     <a href="{{ path('app_pharmaciegros_entity_category_index') }}">Catégorie des produits</a><br>
-    <a href="{{ path('transfert_enattente') }}">Transfert en attente</a><br>
     <a href="{{ path('app_pharmaciegros_entity_transfer_index') }}">Transfert</a><br>
-    <a href="{{ path('app_pharmaciegros_entity_invoice_index') }}">Facture</a><br>
+    <a href="{{ path('app_pharmaciegros_entity_request_new') }}">Demande</a><br>
+    <a href="{{ path('transfert_enattente') }}">Transfert en attente</a><br>
+    <a href="{{ path('request_enattente') }}">Demande en attente</a><br>
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">Commande</a><br>
+    <a href="{{ path('app_pharmaciegros_entity_reception_index') }}">Récéption</a><br>
+    <a href="{{ path('app_pharmaciegros_entity_invoice_index') }}">Facture Fournisseur</a><br>
     <a href="{{ path('app_pharmaciegros_entity_payment_index') }}">Paiement</a><br>
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">Bon de commande</a><br>
-    <a href="{{ path('app_pharmaciegros_entity_reception_index') }}">Bon de récéption</a><br>
     <a href="{{ path('app_pharmaciegros_entity_stockmovement_index') }}">Mouvement de stock</a><br>
     <a href="{{ path('app_pharmaciegros_entity_supplier_index') }}">Fournisseur</a><br>
 {% endblock %}

@@ -24,8 +24,8 @@ final class TransferController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_pharmaciegros_entity_transfer_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/newtransfert', name: 'app_pharmaciegros_entity_transfer_new', methods: ['GET', 'POST'])]
+    public function newtransfert(Request $request, EntityManagerInterface $entityManager): Response
     {
         $transfer = new Transfer();
         $form = $this->createForm(TransferForm::class, $transfer);
@@ -40,6 +40,35 @@ final class TransferController extends AbstractController
                 $entityManager->persist($ligne);
             }
 
+            $transfer->setType('TRANSFERT');
+            $entityManager->persist($transfer);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_pharmaciegros_entity_transfer_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('pharmaciegros/transfer/new.html.twig', [
+            'transfer' => $transfer,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/newrequest', name: 'app_pharmaciegros_entity_request_new', methods: ['GET', 'POST'])]
+    public function newrequest(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $transfer = new Transfer();
+        $form = $this->createForm(TransferForm::class, $transfer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($transfer->getLigne() as $ligne) {
+                $ligne->setTransfert($transfer);
+                $ligne->setProduct($ligne->getProduct());
+                $ligne->setQuantity($ligne->getQuantity());
+                $entityManager->persist($ligne);
+            }
+            $transfer->setType('REQUEST');
             $entityManager->persist($transfer);
             $entityManager->flush();
 
@@ -56,7 +85,18 @@ final class TransferController extends AbstractController
     public function Transfetenattente(TransferRepository $transferRepository): Response
     {
         //TODO atao specifique isaky ny service
-        $transfert = $transferRepository->findBy(['status'=>'Envoyé']);
+        $transfert = $transferRepository->findBy(['status'=>'Envoyé','type'=>'TRANSFERT']);
+
+        return $this->render('pharmaciegros/transfer/enattente.html.twig', [
+            'transfert' => $transfert,
+        ]);
+    }
+
+    #[Route('/requeest/attentevalidation', name: 'request_enattente')]
+    public function Requestenattente(TransferRepository $transferRepository): Response
+    {
+        //TODO atao specifique isaky ny service
+        $transfert = $transferRepository->findBy(['status'=>'Envoyé','type'=>'REQUEST']);
 
         return $this->render('pharmaciegros/transfer/enattente.html.twig', [
             'transfert' => $transfert,
@@ -65,7 +105,7 @@ final class TransferController extends AbstractController
 
 
     #[Route('/transfert/{id}/valider', name: 'transfert_valider')]
-    public function valider(Transfer $transfert, StockManager $stockManager): Response
+    public function validertransfer(Transfer $transfert, StockManager $stockManager): Response
     {
         $transfert->setStatus('Reçu');
         $stockManager->applyTransfert($transfert);
@@ -73,7 +113,14 @@ final class TransferController extends AbstractController
         return $this->redirectToRoute('app_pharmaciegros_entity_transfer_index');
     }
 
+    #[Route('/request/{id}/valider', name: 'request_valider')]
+    public function validerrequest(Transfer $transfert, StockManager $stockManager): Response
+    {
+        $transfert->setStatus('Reçu');
+        $stockManager->applyRequest($transfert);
 
+        return $this->redirectToRoute('app_pharmaciegros_entity_transfer_index');
+    }
 
     #[Route('/{id}', name: 'app_pharmaciegros_entity_transfer_show', methods: ['GET'])]
     public function show(Transfer $transfer): Response

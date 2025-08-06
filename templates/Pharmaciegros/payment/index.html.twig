@@ -1,10 +1,38 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Payment index{% endblock %}
 
 {% block body %}
-    <h1>Payment index</h1>
-
+    <h3>Paiement en attente</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Facture</th>
+            <th>Fournisseur</th>
+            <th>Duedate</th>
+            <th>Montant</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for facture in facture %}
+            <tr>
+                <td>{{ facture.invoicenumber }}</td>
+                <td>{{ facture.supplier.name }}</td>
+                <td>{{ facture.duedate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ facture.amount }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_payment_new', {'invoice': facture.id}) }}">Payé</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Historique de paiement</h3>
     <table class="table">
         <thead>
             <tr>
@@ -36,6 +64,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_pharmaciegros_entity_payment_new') }}">Create new</a>
 {% endblock %}

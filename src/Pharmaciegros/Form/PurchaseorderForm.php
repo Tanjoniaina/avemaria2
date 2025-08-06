@@ -19,7 +19,6 @@ class PurchaseorderForm extends AbstractType
             ->add('orderdate')
             ->add('status', ChoiceType::class,[
                 'choices'=>[
-                    'Brouillon' => 'brouillon',
                     'envoyé' => 'envoye',
                     'reçu' => 'recu',
                     'annulé'=> 'annule'

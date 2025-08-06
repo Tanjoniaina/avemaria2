@@ -17,10 +17,13 @@ class ReceptionForm extends AbstractType
     {
         $builder
             ->add('receiveddate')
+            ->add('invoice', InvoiceForm::class,[
+                'mapped'=>false
+            ])
             ->add('status', ChoiceType::class,[
                 'choices'=>[
-                    'Partial' => 'Partial',
                     'Total' => 'Total',
+                    'Partial' => 'Partial',
                 ]
             ])
             ->add('ligne',CollectionType::class,
@@ -31,6 +34,7 @@ class ReceptionForm extends AbstractType
                     'by_reference' => false,
                 ]
             )
+
 
         ;
     }

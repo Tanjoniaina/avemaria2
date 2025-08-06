@@ -18,10 +18,7 @@ class PaymentForm extends AbstractType
             ->add('amount')
             ->add('payementmethod')
             ->add('reference')
-            ->add('invoice', EntityType::class, [
-                'class' => Invoice::class,
-                'choice_label' => 'id',
-            ])
+
         ;
     }
 

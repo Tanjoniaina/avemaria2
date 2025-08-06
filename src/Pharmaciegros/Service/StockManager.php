@@ -75,6 +75,42 @@ class StockManager
         $this->em->flush();
     }
 
+    public function applyRequest(Transfer $transfert): void
+    {
+        if ($transfert->getStatus() !== 'Reçu') {
+            return;
+        }
+
+        $source = $transfert->getSourceLocation();
+        $destination = $transfert->getDestinationLocation();
+        $now = new \DateTimeImmutable();
+
+        foreach ($transfert->getLigne() as $ligne) {
+            $produit = $ligne->getProduct();
+            $quantite = $ligne->getQuantity();
+
+            // SORTIE
+            $sortie = new Stockmovement();
+            $sortie->setProduct($produit);
+            $sortie->setQuantity($quantite);
+            $sortie->setType('ENTREE');
+            $sortie->setLocation($source);
+            $this->em->persist($sortie);
+
+            // ENTREE
+            $entree = new Stockmovement();
+            $entree->setProduct($produit);
+            $entree->setQuantity($quantite);
+            $entree->setType('SORTIE');
+            $entree->setLocation($destination);
+            $this->em->persist($entree);
+        }
+
+        $transfert->setStatus('Terminé');
+        $this->em->persist($transfert);
+        $this->em->flush();
+    }
+
     /**
      * Calcule le stock actuel d’un produit dans une location donnée
      */
