@@ -28,6 +28,11 @@ class Payment
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
 
+    public function __construct()
+    {
+        $this->payementdate = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

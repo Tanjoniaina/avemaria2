@@ -11,6 +11,7 @@
             <th>Fournisseur</th>
             <th>Duedate</th>
             <th>Montant</th>
+            <th>Reste à payer</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td>{{ facture.supplier.name }}</td>
                 <td>{{ facture.duedate|date('Y-m-d H:i:s') }}</td>
                 <td>{{ facture.amount }}</td>
+                <td>{{ facture.resteAPayer }}</td>
                 <td>
                     <a href="{{ path('app_pharmaciegros_entity_payment_new', {'invoice': facture.id}) }}">Payé</a>
                 </td>
@@ -40,7 +42,7 @@
                 <th>Payementdate</th>
                 <th>Amount</th>
                 <th>Payementmethod</th>
-                <th>Reference</th>
+                <th>Facture</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -51,7 +53,7 @@
                 <td>{{ payment.payementdate ? payment.payementdate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ payment.amount }}</td>
                 <td>{{ payment.payementmethod }}</td>
-                <td>{{ payment.reference }}</td>
+                <td>{{ payment.invoice.invoicenumber }}</td>
                 <td>
                     <a href="{{ path('app_pharmaciegros_entity_payment_show', {'id': payment.id}) }}">show</a>
                     <a href="{{ path('app_pharmaciegros_entity_payment_edit', {'id': payment.id}) }}">edit</a>

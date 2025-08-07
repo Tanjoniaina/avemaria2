@@ -26,13 +26,23 @@ final class PaymentController extends AbstractController
     }
 
     #[Route('/new/{invoice}', name: 'app_pharmaciegros_entity_payment_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $invoice): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, $invoice, InvoiceRepository $invoiceRepository): Response
     {
+        $invoiceobj = $invoiceRepository->findOneBy(['id'=>$invoice]);
+        $resteapayer = $invoiceobj->getResteAPayer();
         $payment = new Payment();
+        $payment->setAmount($resteapayer);
         $form = $this->createForm(PaymentForm::class, $payment);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $amoutpaied = $form->get('amount')->getData();
+
+            if($amoutpaied >= $resteapayer){
+                $invoiceobj->setStatus('Payé');
+            }
+            $payment->setInvoice($invoiceobj);
             $entityManager->persist($payment);
             $entityManager->flush();
 
@@ -42,6 +52,7 @@ final class PaymentController extends AbstractController
         return $this->render('pharmaciegros/payment/new.html.twig', [
             'payment' => $payment,
             'form' => $form,
+            'resteapayer' => $resteapayer
         ]);
     }
 

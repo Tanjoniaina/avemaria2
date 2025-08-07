@@ -36,7 +36,7 @@
 
     <a href="{{ path('app_pharmaciegros_entity_invoice_index') }}">back to list</a>
 
-    <a href="{{ path('app_pharmaciegros_entity_invoice_edit', {'id': invoice.id}) }}">edit</a>
+    <a href="{{ path('app_pharmaciegros_entity_payment_new', {'invoice': invoice.id}) }}">Payer</a>
 
     {{ include('pharmaciegros/invoice/_delete_form.html.twig') }}
 {% endblock %}

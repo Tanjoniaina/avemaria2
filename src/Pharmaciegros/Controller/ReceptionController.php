@@ -30,7 +30,7 @@ final class ReceptionController extends AbstractController
     #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository): Response
     {
-        // TODO si payer à réception, il faut créer un historique de paiement
+
         $reception = new Reception();
         $reception->setReceiveddate(new \DateTime());
         $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
@@ -50,6 +50,7 @@ final class ReceptionController extends AbstractController
 
             $facture = $form->get('invoice')->getData();
             $facture->setSupplier($purchaseOrder->getSupplier());
+            $facture->setStatus('A payer');
             $reception->setInvoice($facture);
 
             foreach($reception->getLigne() as $ligne) {

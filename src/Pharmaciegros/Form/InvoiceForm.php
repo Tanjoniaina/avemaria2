@@ -19,12 +19,6 @@ class InvoiceForm extends AbstractType
             ->add('invoicedate')
             ->add('duedate')
             ->add('amount')
-            ->add('status', ChoiceType::class,[
-                'choices'=>[
-                    'A payer' => 'A payer',
-                    'Payé' => 'Payé',
-                ]
-            ])
         ;
     }
 
