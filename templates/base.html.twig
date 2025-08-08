@@ -27,7 +27,7 @@
     </script>
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+         {# {{ encore_entry_script_tags('app') }} #}
     {% endblock %}
 
     <style>
@@ -127,9 +127,42 @@
             vertical-align: middle;
             margin-left: 10px;
         }
+        
+        .form-size{
+            font-size: small;
+        }
+
+        .btn-primary{
+            font-size: small;
+            font-weight: bold;
+        }
+
+        .custom-bg-pha, .custom-bg-purchase{
+            background-color: #ced4da;
+        }
+
+        .btn-purchase{
+            display: flex;
+            justify-content: center;
+        }
+        .btn-purchase a{
+            font-size: 1em;
+        }
+        .btn-back a, .btn-edit a{
+            color: white;
+            text-decoration: none;}
+
+        @media (max-width: 768px) {
+        .btn-primary {
+            margin: 5px auto 0;
+            display: flex;
+            align-items: center;
+
+    }
+}
     </style>
     {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+           {# {{ encore_entry_link_tags('app') }} #}
     {% endblock %}
 
 

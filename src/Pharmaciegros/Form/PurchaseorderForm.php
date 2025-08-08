@@ -16,7 +16,9 @@ class PurchaseorderForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('orderdate')
+            ->add('orderdate', null, [
+                'label' => 'Order Date',
+            ])
             ->add('status', ChoiceType::class,[
                 'choices'=>[
                     'Brouillon' => 'brouillon',
@@ -25,8 +27,12 @@ class PurchaseorderForm extends AbstractType
                     'annulé'=> 'annule'
                 ]
             ])
-            ->add('referencenumber')
-            ->add('totalamount')
+            ->add('referencenumber', null, [
+                'label' => 'Reference Number'
+            ])
+            ->add('totalamount', null, [
+                'label' => 'Total Amount'
+            ])
             ->add('supplier', EntityType::class, [
                 'class' => Supplier::class,
                 'choice_label' => 'name',

@@ -5,9 +5,9 @@
 {%  form_theme form _self %}
 
 {% block body %}
-    <h1>Creat Bon de commande</h1>
+    <h2 class="bg-primary text-white p-3">Créer un bon de commande</h2>
 
-    <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+    <button class="btn btn-sm btn-secondary bg-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal">
         + Ajouter un produit
     </button>
 
@@ -26,10 +26,11 @@
 
 {% block _purchaseorder_form_ligne_widget %}
 
-    <p>Ici, ajouter les factures</p>
+    <p class="text-center fw-bold">Ici, ajouter les factures</p>
     {{ form_widget(form) }}
     <input type="hidden" id="widget-counter" value="0">
-    <div class="form-group">
+
+    <div class="form-group text-center">
         <button type="button" id="add-facture" class="btn btn-primary">Ajouter</button>
     </div>
 
@@ -63,37 +64,47 @@
     {{ parent() }}
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const addButton = document.getElementById('add-facture');
-            const collection = document.getElementById('purchaseorder_form_ligne');
-            const counter = document.getElementById('widget-counter');
 
-            if (addButton && collection && counter) {
-                addButton.addEventListener('click', () => {
-                    const index = parseInt(counter.value);
-                    const prototype = collection.dataset.prototype;
-                    const newForm = prototype.replace(/__name__/g, index);
+    document.addEventListener('DOMContentLoaded', function () {
+    const addButton = document.getElementById('add-facture');
+    const collection = document.getElementById('purchaseorder_form_ligne');
+    const counter = document.getElementById('widget-counter');
 
-                    const temp = document.createElement('div');
-                    temp.innerHTML = newForm;
-                    const formElement = temp.firstElementChild;
+    if (addButton && collection && counter) {
+        addButton.addEventListener('click', () => {
+            const index = parseInt(counter.value);
+            const prototype = collection.dataset.prototype;
+            const newForm = prototype.replace(/__name__/g, index);
 
-                    collection.appendChild(formElement);
-                    counter.value = index + 1;
+            const temp = document.createElement('div');
+            temp.innerHTML = newForm;
+            const formElement = temp.firstElementChild;
 
-                    handleDeleteButtons();
-                    initAutocompletePriceBinding(formElement); // ✅ on passe la ligne
-                });
+            collection.appendChild(formElement);
+            counter.value = index + 1;
+
+            handleDeleteButtons();
+            initAutocompletePriceBinding(formElement); // ✅ on passe la ligne
+        });
+    }
+
+           function handleDeleteButtons() {
+           document.querySelectorAll('button[data-action="delete"]').forEach(button => {
+        
+        if (button.classList.contains('enhanced-delete')) return;
+        
+        button.innerHTML = '<i class="fas fa-trash"></i> X';
+        button.classList.add('btn', 'btn-danger', 'btn-sm', 'enhanced-delete');
+        
+        button.onclick = () => {
+            const target = document.querySelector(button.dataset.target);
+            
+            if (confirm('Are you sure you want to remove this item?')) {
+                target?.remove();
             }
-
-            function handleDeleteButtons() {
-                document.querySelectorAll('button[data-action="delete"]').forEach(button => {
-                    button.onclick = () => {
-                        const target = document.querySelector(button.dataset.target);
-                        target?.remove();
-                    };
-                });
-            }
+        };
+    });
+}
 
             /**
              * Injecte le prix dans le champ unitprice d'une ligne donnée

@@ -1,4 +1,77 @@
-{{ form_start(form) }}
+{#{{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}#}
+
+
+    {{ form_start(form) }}
+    <div class="card p-1 form-size rounded-0 border-0 d-flex justify-content-center custom-bg-pha"> {# Fancy container #}
+        {# Row 1: Side-by-side fields #}
+        <div class="row mb-1">
+        {# Order Date #}
+            <div class="col-md-3">  {# Right border #}
+                <div class="row align-items-center h-100 g-0">
+                    <div class="col-md-4 fw-bold text-capitalize pe-0">
+                        {{ form_label(form.orderdate) }}
+                    </div>
+                    <div class="col-md-8">
+                    {{ form_widget(form.orderdate, {'attr': {'class': 'form-control form-control-sm'} }) }}
+                    </div>
+                </div>
+            </div>
+        
+        {# Reference Number #}
+            <div class="col-md-3">  {# Right border #}
+                <div class="row align-items-center h-100 g-0">
+                    <div class="col-md-6 fw-bold text-capitalize pe-0">
+                        {{ form_label(form.referencenumber) }}
+                    </div>
+                    <div class="col-md-6">
+                    {{ form_widget(form.referencenumber, {'attr': {'class': 'form-control form-control-sm'} }) }}
+                    </div>
+                </div>
+            </div>
+        
+        
+         {# Status #}
+            <div class="col-md-3">  {# Right border #}
+                <div class="row align-items-center h-100">
+                    <div class="col-md-2 fw-bold text-capitalize">
+                        {{ form_label(form.status) }}
+                    </div>
+                    <div class="col-md-8">
+                    {{ form_widget(form.status, {'attr': {'class': 'form-select form-select-sm'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Supplier #}
+            <div class="col-md-2">  {# Right border #}
+                <div class="row align-items-center h-100">
+                    <div class="col-md-4 fw-bold text-capitalize">
+                        {{ form_label(form.supplier) }}
+                    </div>
+                    <div class="col-md-8">
+                    {{ form_widget(form.supplier, {'attr': {'class': 'form-select form-select-sm'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-1">
+                <div class="col-md-9 offset-md-3">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>   
+    </div>
+
+        <div class="row mb-3 mt-5 align-items-center ">
+            <div class="col-md-2 text-capitalize fw-bold text-muted">
+                {{ form_label(form.totalamount) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_widget(form.totalamount, {'attr': {'class': 'form-control border-primary'} }) }}
+            </div>
+        </div>
+
 {{ form_end(form) }}

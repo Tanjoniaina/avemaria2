@@ -3,39 +3,41 @@
 {% block title %}Purchaseorder index{% endblock %}
 
 {% block body %}
-    <h1>Purchaseorder index</h1>
+    <h1 class="bg-primary text-white p-3 text-center">Purchase Order Index</h1>
 
-    <table class="table">
+    <table class="table text-center">
         <thead>
-            <tr>
+            <tr class="custom-bg-purchase">
                 <th>Id</th>
-                <th>Orderdate</th>
+                <th>Order Date</th>
                 <th>Status</th>
-                <th>Referencenumber</th>
-                <th>Totalamount</th>
-                <th>actions</th>
+                <th>Reference Number</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for purchaseorder in purchaseorders %}
             <tr>
-                <td>{{ purchaseorder.id }}</td>
+                <td class="fw-bold">{{ purchaseorder.id }}</td>
                 <td>{{ purchaseorder.orderdate ? purchaseorder.orderdate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ purchaseorder.status }}</td>
                 <td>{{ purchaseorder.referencenumber }}</td>
                 <td>{{ purchaseorder.totalamount }}</td>
                 <td>
-                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_show', {'id': purchaseorder.id}) }}">show</a>
-                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}">edit</a>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_show', {'id': purchaseorder.id}) }}" class="btn btn-primary">Show</a>
+                    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_edit', {'id': purchaseorder.id}) }}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_new') }}">Create new</a>
+    <div class="btn-purchase">
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_new') }}" class="btn btn-primary">Create New</a>
+    </div>
 {% endblock %}

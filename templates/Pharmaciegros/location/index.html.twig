@@ -3,11 +3,11 @@
 {% block title %}Location index{% endblock %}
 
 {% block body %}
-    <h1>Location index</h1>
+    <h1 class="bg-primary text-white p-3 text-center">Location Index</h1>
 
-    <table class="table">
+    <table class="table text-center">
         <thead>
-            <tr>
+            <tr class="custom-bg-purchase">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Code</th>
@@ -29,11 +29,12 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_pharmaciegros_entity_location_new') }}">Create new</a>
+    <div class="btn-purchase">
+    <a href="{{ path('app_pharmaciegros_entity_location_new') }}" class="btn btn-primary">Create New</a>
+    </div>
 {% endblock %}

@@ -3,11 +3,12 @@
 {% block title %}Edit Purchaseorder{% endblock %}
 
 {% block body %}
-    <h1>Edit Purchaseorder</h1>
+    <h1 class="bg-primary text-white p-3 text-center">Edit Purchase Order</h1>
 
     {{ include('pharmaciegros/purchaseorder/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}">back to list</a>
-
+    
+    <div>
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_index') }}" style="text-decoration:none; font-size: 1em" class="btn btn-primary">Back to list</a>
+    </div>
     {{ include('pharmaciegros/purchaseorder/_delete_form.html.twig') }}
 {% endblock %}
