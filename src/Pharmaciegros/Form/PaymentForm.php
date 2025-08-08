@@ -6,6 +6,7 @@ use App\Pharmaciegros\Entity\Invoice;
 use App\Pharmaciegros\Entity\Payment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,12 +17,16 @@ class PaymentForm extends AbstractType
         $builder
             ->add('payementdate')
             ->add('amount')
-            ->add('payementmethod')
-            ->add('reference')
-            ->add('invoice', EntityType::class, [
-                'class' => Invoice::class,
-                'choice_label' => 'id',
+            ->add('payementmethod', ChoiceType::class,[
+                'choices'=>[
+                    'Chèque' => 'Chèque',
+                    'Mobile money' => 'Mobile Money',
+                    'Virement'=> 'Virement',
+                    'Espèce'=> 'Espèce'
+                ]
             ])
+            ->add('reference')
+
         ;
     }
 

@@ -150,4 +150,21 @@ class Invoice
 
         return $this;
     }
+
+    public function getTotalPaye(): float
+    {
+        $total = 0;
+
+        foreach ($this->getPayments() as $paiement) {
+            $total += $paiement->getAmount();
+        }
+
+        return $total;
+    }
+
+    public function getResteAPayer(): float
+    {
+        return $this->getAmount() - $this->getTotalPaye();
+    }
+
 }

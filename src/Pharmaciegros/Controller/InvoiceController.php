@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/pharmaciegros/entity/invoice')]
+#[Route('/pharmaciegros/invoice')]
 final class InvoiceController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_invoice_index', methods: ['GET'])]
     public function index(InvoiceRepository $invoiceRepository): Response
     {
-        return $this->render('app/pharmaciegros/entity/invoice/index.html.twig', [
+        return $this->render('pharmaciegros/invoice/index.html.twig', [
             'invoices' => $invoiceRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class InvoiceController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_invoice_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/invoice/new.html.twig', [
+        return $this->render('pharmaciegros/invoice/new.html.twig', [
             'invoice' => $invoice,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class InvoiceController extends AbstractController
     #[Route('/{id}', name: 'app_pharmaciegros_entity_invoice_show', methods: ['GET'])]
     public function show(Invoice $invoice): Response
     {
-        return $this->render('app/pharmaciegros/entity/invoice/show.html.twig', [
+        return $this->render('pharmaciegros/invoice/show.html.twig', [
             'invoice' => $invoice,
         ]);
     }
@@ -62,7 +62,7 @@ final class InvoiceController extends AbstractController
             return $this->redirectToRoute('app_pharmaciegros_entity_invoice_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('app/pharmaciegros/entity/invoice/edit.html.twig', [
+        return $this->render('pharmaciegros/invoice/edit.html.twig', [
             'invoice' => $invoice,
             'form' => $form,
         ]);

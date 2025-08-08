@@ -1,11 +1,12 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Payment{% endblock %}
 
 {% block body %}
     <h1>Create new Payment</h1>
+    <h3>Montant à payer : {{ resteapayer }}</h3>
 
-    {{ include('app/pharmaciegros/entity/payment/_form.html.twig') }}
+    {{ include('pharmaciegros/payment/_form.html.twig') }}
 
     <a href="{{ path('app_pharmaciegros_entity_payment_index') }}">back to list</a>
 {% endblock %}

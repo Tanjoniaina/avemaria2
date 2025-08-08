@@ -5,6 +5,7 @@ namespace App\Pharmaciegros\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -77,6 +78,12 @@ class Product
      */
     #[ORM\OneToMany(targetEntity: TransferLine::class, mappedBy: 'product')]
     private Collection $transferLines;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $batch = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $peremption = null;
 
     public function __construct()
     {
@@ -380,6 +387,30 @@ class Product
                 $transferLine->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBatch(): ?string
+    {
+        return $this->batch;
+    }
+
+    public function setBatch(?string $batch): static
+    {
+        $this->batch = $batch;
+
+        return $this;
+    }
+
+    public function getPeremption(): ?\DateTime
+    {
+        return $this->peremption;
+    }
+
+    public function setPeremption(?\DateTime $peremption): static
+    {
+        $this->peremption = $peremption;
 
         return $this;
     }

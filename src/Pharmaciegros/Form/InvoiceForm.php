@@ -6,6 +6,7 @@ use App\Pharmaciegros\Entity\Invoice;
 use App\Pharmaciegros\Entity\Supplier;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,11 +19,6 @@ class InvoiceForm extends AbstractType
             ->add('invoicedate')
             ->add('duedate')
             ->add('amount')
-            ->add('status')
-            ->add('supplier', EntityType::class, [
-                'class' => Supplier::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

@@ -25,10 +25,13 @@
             </tr>
         </tbody>
     </table>
+    {# TODO Aseo ilay produit rehetra ho validena #}
+    {% if transfer.type == 'TRANSFERT' %}
+        <a href="{{ path('transfert_valider',{'id': transfer.id}) }}" class="btn btn-success">Valider</a>
+    {% elseif transfer.type == 'REQUEST' %}
+        <a href="{{ path('request_valider',{'id': transfer.id}) }}" class="btn btn-success">Valider</a>
+    {% endif %}
 
-    <a href="{{ path('app_pharmaciegros_entity_transfer_index') }}">back to list</a>
 
-    <a href="{{ path('app_pharmaciegros_entity_transfer_edit', {'id': transfer.id}) }}">edit</a>
-
-    {{ include('app/pharmaciegros/transfer/_delete_form.html.twig') }}
+    {{ include('pharmaciegros/transfer/_delete_form.html.twig') }}
 {% endblock %}

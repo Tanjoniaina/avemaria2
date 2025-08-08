@@ -16,6 +16,15 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
+    public function findEnAttenteDePaiement(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.status IN (:statuses)')
+            ->setParameter('statuses', ['A payer', 'Payé partiellement'])
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Invoice[] Returns an array of Invoice objects
 //     */

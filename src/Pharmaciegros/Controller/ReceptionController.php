@@ -30,6 +30,7 @@ final class ReceptionController extends AbstractController
     #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository): Response
     {
+
         $reception = new Reception();
         $reception->setReceiveddate(new \DateTime());
         $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
@@ -47,12 +48,17 @@ final class ReceptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $facture = $form->get('invoice')->getData();
+            $facture->setSupplier($purchaseOrder->getSupplier());
+            $facture->setStatus('A payer');
+            $reception->setInvoice($facture);
+
             foreach($reception->getLigne() as $ligne) {
                 $stockmouvement = new Stockmovement();
                 $stockmouvement->setProduct($ligne->getProduct());
                 $stockmouvement->setQuantity($ligne->getquantityReceived());
                 $stockmouvement->setMovementdate(new \DateTime());
-                $stockmouvement->setType("RECEPTION");
+                $stockmouvement->setType("ENTREE");
                 $stockmouvement->setComment('Réception bon de commande #' . $purchaseOrder->getReferencenumber());
                 $entityManager->persist($stockmouvement);
 
@@ -64,6 +70,7 @@ final class ReceptionController extends AbstractController
 
             $purchaseOrder->setStatus('termine');
             $entityManager->persist($purchaseOrder);
+            $entityManager->persist($facture);
             $entityManager->persist($reception);
             $entityManager->flush();
 

@@ -36,9 +36,13 @@ class Transfer
     #[ORM\OneToMany(targetEntity: TransferLine::class, mappedBy: 'transfert')]
     private Collection $ligne;
 
+    #[ORM\Column(length: 20)]
+    private ?string $type = null;
+
     public function __construct()
     {
         $this->ligne = new ArrayCollection();
+        $this->transfertDate = new \DateTime();
     }
 
     public function getId(): ?int
@@ -132,6 +136,18 @@ class Transfer
                 $ligne->setTransfert(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

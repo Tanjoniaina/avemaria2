@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfer index{% endblock %}
+
+{% block body %}
+    <h1>Transfer index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>TransfertDate</th>
+                <th>Comment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transfer in transfert %}
+            <tr>
+                <td>{{ transfer.id }}</td>
+                <td>{{ transfer.status }}</td>
+                <td>{{ transfer.transfertDate ? transfer.transfertDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ transfer.comment }}</td>
+                <td>
+                    <a href="{{ path('app_pharmaciegros_entity_transfer_show', {'id': transfer.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmaciegros_entity_transfer_new') }}">Create new</a>
+{% endblock %}
