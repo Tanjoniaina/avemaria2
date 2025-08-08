@@ -2,10 +2,12 @@
 
 namespace App\Pharmaciegros\Controller;
 
+use App\Pharmaciegros\Entity\Invoice;
 use App\Pharmaciegros\Entity\Reception;
 use App\Pharmaciegros\Entity\Receptionline;
 use App\Pharmaciegros\Entity\Stockmovement;
 use App\Pharmaciegros\Form\ReceptionForm;
+use App\Repository\LocationRepository;
 use App\Repository\PurchaseorderRepository;
 use App\Repository\ReceptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,12 +30,16 @@ final class ReceptionController extends AbstractController
     }
 
     #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository, LocationRepository $locationRepository): Response
     {
 
+        $location = $locationRepository->findOneBy(['name'=>'Pharmacie']);
         $reception = new Reception();
+        $invoice = new Invoice();
+
         $reception->setReceiveddate(new \DateTime());
         $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
+        $invoice->setAmount($purchaseOrder->getTotalamount());
 
         foreach ($purchaseOrder->getLigne() as $poLine) {
             $receptionLine = new Receptionline();
@@ -41,9 +47,9 @@ final class ReceptionController extends AbstractController
             $receptionLine->setQuantityReceived($poLine->getQuantityOrdered());
             $reception->addLigne($receptionLine);
         }
+        $reception->setInvoice($invoice);
 
         $form = $this->createForm(ReceptionForm::class, $reception);
-        $reception->setReceiveddate(new \DateTime());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,6 +58,7 @@ final class ReceptionController extends AbstractController
             $facture->setSupplier($purchaseOrder->getSupplier());
             $facture->setStatus('A payer');
             $reception->setInvoice($facture);
+            $reception->setStatus('Total');
 
             foreach($reception->getLigne() as $ligne) {
                 $stockmouvement = new Stockmovement();
@@ -59,6 +66,7 @@ final class ReceptionController extends AbstractController
                 $stockmouvement->setQuantity($ligne->getquantityReceived());
                 $stockmouvement->setMovementdate(new \DateTime());
                 $stockmouvement->setType("ENTREE");
+                $stockmouvement->setLocation($location);
                 $stockmouvement->setComment('Réception bon de commande #' . $purchaseOrder->getReferencenumber());
                 $entityManager->persist($stockmouvement);
 
