@@ -24,7 +24,7 @@
                 <td>{{ facture.amount }}</td>
                 <td>{{ facture.resteAPayer }}</td>
                 <td>
-                    <a href="{{ path('app_pharmaciegros_entity_payment_new', {'invoice': facture.id}) }}">Payé</a>
+                    <a href="{{ path('app_pharmaciegros_entity_payment_new', {'invoice': facture.id}) }}">Payer</a>
                 </td>
             </tr>
         {% else %}

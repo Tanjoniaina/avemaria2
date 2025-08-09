@@ -63,11 +63,11 @@
         .sidebar {
             width: 250px;
             background-color: #0b60b5;
-            height: calc(100vh - 56px); /* hauteur restante sous navbar */
+            height: calc(100vh - 53px); /* hauteur restante sous navbar */
             transition: all 0.3s ease;
             overflow-y: auto;
             position: fixed;
-            top: 56px; /* commence juste sous le navbar */
+            top: 53px; /* commence juste sous le navbar */
             z-index: 1000;
         }
 
@@ -193,16 +193,45 @@
 <body>
 
 <!-- Navbar -->
+<!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top" style="background-color: #0b60b5;">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+        <!-- Bouton pour ouvrir la sidebar -->
         <button class="btn btn-outline-light" id="toggleSidebar">
             <i class="bi bi-list"></i>
         </button>
-        <span class="navbar-brand ms-3">Clinique Ave Maria</span>
+
+        <div class="d-flex align-items-center">
+
+            <!-- Icône de notification -->
+            <div class="dropdown me-3">
+                <a class="nav-link text-white" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-bell fs-5"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                    <li><span class="dropdown-item">Aucune notification</span></li>
+                </ul>
+            </div>
+
+            <!-- Utilisateur connecté -->
+            {% if app.user %}
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ app.user.username|default(app.user.username) }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <a class="nav-link text-white" href="{{ path('app_login') }}">Connexion</a>
+            {% endif %}
+        </div>
+
     </div>
 </nav>
 
-<!-- Wrapper -->
 <div class="wrapper" id="wrapper">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
