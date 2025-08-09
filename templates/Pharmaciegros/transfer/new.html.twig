@@ -1,79 +1,153 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Transfer{% endblock %}
+{% block title %}Nouveau Transfert{% endblock %}
 
 {% block body %}
-    <h1>Create new Transfer</h1>
+    <h1 class="mb-4">Créer un nouveau transfert</h1>
 
     {{ form_start(form) }}
 
-    <div id="transfer_lines_wrapper"
-         data-prototype="{{ form_widget(form.ligne.vars.prototype)|e('html_attr') }}">
+    <div class="card border-0 shadow-sm p-3">
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                {{ form_label(form.status, null, {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.status, {'attr': {'class': 'form-select form-select-sm'}}) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_label(form.transfertDate, null, {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.transfertDate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_label(form.comment, null, {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.comment, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                {{ form_label(form.sourceLocation, null, {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.sourceLocation, {'attr': {'class': 'form-select form-select-sm'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.destinationLocation, null, {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.destinationLocation, {'attr': {'class': 'form-select form-select-sm'}}) }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold text-muted m-0">Articles transférés</h6>
+                <button type="button" id="add-transfer-line" class="btn btn-sm btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajouter un produit
+                </button>
+            </div>
+
+            <table class="table table-sm align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Produit</th>
+                    <th >Quantité</th>
+                    <th style="width:50px;"></th>
+                </tr>
+                </thead>
+                <tbody id="transfer_lines_wrapper"
+                       data-prototype="{{ form_widget(form.ligne.vars.prototype)|e('html_attr') }}">
+                {# affiche les lignes existantes en mettant produit avant quantité #}
+                {% for lineForm in form.ligne %}
+                    <tr class="transfer-line-block">
+                        <td>{{ form_widget(lineForm.product, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                        <td>{{ form_widget(lineForm.quantity, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-danger remove-line">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary px-4">Valider le transfert</button>
+        </div>
+
     </div>
-
-    <button type="button" id="add-transfer-line" class="btn btn-sm btn-outline-primary">
-        + Ajouter un produit
-    </button>
-
-    <button type="submit" class="btn btn-success mt-3">Valider le transfert</button>
 
     {{ form_end(form) }}
 
-
-    <a href="{{ path('app_pharmaciegros_entity_transfer_index') }}">back to list</a>
 {% endblock %}
 
-{%  block javascripts  %}
+{% block javascripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addButton = document.getElementById('add-transfer-line');
             const collectionWrapper = document.getElementById('transfer_lines_wrapper');
 
-            function refreshStimulusAutocomplete() {
-                import('@hotwired/stimulus').then(({ Application }) => {
-                    const app = Application.start();
-                    app.enhance(); // Stimulus 3 : réactive tous les data-controller
-                }).catch((err) => {
-                    console.error('❌ Impossible de recharger Stimulus :', err);
-                });
-            }
-
-            if (!addButton || !collectionWrapper) {
-                console.warn('⚠️ Élément de formulaire de transfert manquant');
-                return;
-            }
-
+            // index initial
             let index = collectionWrapper.querySelectorAll('.transfer-line-block').length;
 
-            addButton.addEventListener('click', () => {
-                const prototype = collectionWrapper.dataset.prototype;
+            function refreshStimulusAutocomplete() {
+                // on déclenche un événement que tu peux capter dans ton app.js pour "enhancer" Stimulus/UX
+                document.dispatchEvent(new CustomEvent('collection-item-added'));
+            }
 
+            function createRowFromPrototype(prototypeHtml, idx) {
+                // remplace le placeholder d'index
+                const html = prototypeHtml.replace(/__name__/g, idx);
+
+                // parse le HTML renvoyé par Symfony pour récupérer les inputs/selects par name
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // cherche les contrôles par suffixe de name (robuste même si l'ordre du formType change)
+                const productEl = doc.querySelector('[name$="[product]"]');
+                const quantityEl = doc.querySelector('[name$="[quantity]"]');
+
+                // construit la ligne <tr> avec les deux <td>
+                const tr = document.createElement('tr');
+                tr.classList.add('transfer-line-block');
+
+                const tdProd = document.createElement('td');
+                tdProd.innerHTML = productEl ? productEl.outerHTML : '';
+                tr.appendChild(tdProd);
+
+                const tdQty = document.createElement('td');
+                tdQty.innerHTML = quantityEl ? quantityEl.outerHTML : '';
+                tr.appendChild(tdQty);
+
+                const tdAction = document.createElement('td');
+                tdAction.innerHTML = '<button type="button" class="btn btn-sm btn-outline-danger remove-line"><i class="bi bi-trash"></i></button>';
+                tr.appendChild(tdAction);
+
+                return tr;
+            }
+
+            function addLine() {
+                const prototype = collectionWrapper.dataset.prototype;
                 if (!prototype) {
                     console.error('❌ data-prototype manquant sur le wrapper');
                     return;
                 }
 
-                const newFormHtml = prototype.replace(/__name__/g, index);
-                const temp = document.createElement('div');
-                temp.classList.add('transfer-line-block');
-                temp.innerHTML = newFormHtml;
-
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Supprimer';
-                removeButton.type = 'button';
-                removeButton.classList.add('btn', 'btn-sm', 'btn-danger', 'ms-2');
-                removeButton.addEventListener('click', () => {
-                    temp.remove();
-                });
-
-                temp.appendChild(removeButton);
-                collectionWrapper.appendChild(temp);
+                const tr = createRowFromPrototype(prototype, index);
+                collectionWrapper.appendChild(tr);
                 index++;
 
+                // demande la ré-initialisation de Stimulus / UX Autocomplete si nécessaire
                 refreshStimulusAutocomplete();
+            }
 
+            // handler add
+            addButton.addEventListener('click', addLine);
+
+            // handler remove (delegation)
+            collectionWrapper.addEventListener('click', function (e) {
+                if (e.target.closest('.remove-line')) {
+                    e.target.closest('tr').remove();
+                }
             });
         });
-
     </script>
 {% endblock %}

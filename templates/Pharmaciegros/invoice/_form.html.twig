@@ -1,4 +1,25 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            {{ form_label(form.invoicenumber, 'N° Facture', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.invoicenumber, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_label(form.invoicedate, 'Date facture', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.invoicedate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_label(form.duedate, 'Date échéance', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.duedate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_label(form.amount, 'Montant', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.amount, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+
+    </div>
 {{ form_end(form) }}

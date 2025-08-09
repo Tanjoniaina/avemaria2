@@ -25,7 +25,7 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $unit = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -92,6 +92,7 @@ class Product
         $this->stockmovements = new ArrayCollection();
         $this->receptionlines = new ArrayCollection();
         $this->transferLines = new ArrayCollection();
+        $this->isactive = true;
     }
 
     public function getId(): ?int

@@ -1,11 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Reception{% endblock %}
+{% block title %}Nouvelle Réception{% endblock %}
 
 {% block body %}
-    <h1>Create new Reception</h1>
+    {{ include('pharmaciegros/reception/_form.html.twig', { form: form }) }}
+{% endblock %}
 
-    {{ include('pharmaciegros/reception/_form.html.twig') }}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButton = document.getElementById('add-reception-line');
+            const collectionWrapper = document.getElementById('reception_lines_wrapper');
 
-    <a href="{{ path('app_pharmaciegros_entity_reception_index') }}">back to list</a>
+            let index = collectionWrapper.querySelectorAll('.reception-line-block').length;
+
+            function addLine() {
+                const prototype = collectionWrapper.dataset.prototype;
+                if (!prototype) {
+                    console.error('❌ data-prototype manquant sur le wrapper');
+                    return;
+                }
+
+                let newFormHtml = prototype.replace(/__name__/g, index);
+
+                // Création du conteneur pour la nouvelle ligne
+                const tempDiv = document.createElement('div');
+                tempDiv.classList.add('reception-line-block');
+                tempDiv.innerHTML = newFormHtml;
+
+                // Refaire le même rendu que _line.html.twig
+                // Extraction product et quantityReceived
+                const productField = tempDiv.querySelector('[id$="_product"]')?.closest('.form-group') || tempDiv.querySelector('.form-group:nth-child(1)');
+                const quantityField = tempDiv.querySelector('[id$="_quantityReceived"]')?.closest('.form-group') || tempDiv.querySelector('.form-group:nth-child(2)');
+
+                // Vider tempDiv pour restructurer
+                tempDiv.innerHTML = '';
+
+                const flexContainer = document.createElement('div');
+                flexContainer.className = 'd-flex align-items-center mb-2 border rounded p-2 position-relative';
+
+                const prodWrapper = document.createElement('div');
+                prodWrapper.className = 'flex-grow-1 me-3';
+                if (productField) prodWrapper.appendChild(productField);
+
+                const qtyWrapper = document.createElement('div');
+                qtyWrapper.style.width = '100px';
+                if (quantityField) qtyWrapper.appendChild(quantityField);
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'btn btn-sm btn-outline-danger ms-3 remove-line';
+                removeButton.style.height = '30px';
+                removeButton.innerHTML = '&times;';
+                removeButton.addEventListener('click', () => {
+                    tempDiv.remove();
+                });
+
+                flexContainer.appendChild(prodWrapper);
+                flexContainer.appendChild(qtyWrapper);
+                flexContainer.appendChild(removeButton);
+
+                tempDiv.appendChild(flexContainer);
+                collectionWrapper.appendChild(tempDiv);
+                index++;
+            }
+
+            addButton.addEventListener('click', addLine);
+
+            collectionWrapper.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-line')) {
+                    e.target.closest('.reception-line-block').remove();
+                }
+            });
+        });
+    </script>
 {% endblock %}

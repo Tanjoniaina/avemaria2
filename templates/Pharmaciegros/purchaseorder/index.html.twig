@@ -3,7 +3,7 @@
 {% block title %}Purchaseorder index{% endblock %}
 
 {% block body %}
-    <h1 class="bg-primary text-white p-3 text-center">Purchase Order Index</h1>
+    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_new') }}" class="btn btn-primary mb-3">Créer un bon de commande</a>
 
     <table class="table table-striped table-bordered datatable">
         <thead>
@@ -37,9 +37,6 @@
         </tbody>
     </table>
 
-    <div class="btn-purchase">
-    <a href="{{ path('app_pharmaciegros_entity_purchaseorder_new') }}" class="btn btn-primary">Create New</a>
-    </div>
 {% endblock %}
 
 {% block javascripts %}

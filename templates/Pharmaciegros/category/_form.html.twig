@@ -1,4 +1,16 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="card border-0 shadow-sm p-4" style="max-width: 400px;">
+
+    <div class="mb-3">
+        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'fw-bold'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary px-4">Enregistrer</button>
+    </div>
+
+</div>
+
 {{ form_end(form) }}

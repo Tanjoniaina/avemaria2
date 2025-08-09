@@ -1,0 +1,15 @@
+<div class="d-flex align-items-center mb-2 border rounded p-2 position-relative">
+
+    <div class="flex-grow-1 me-3">
+        {{ form_row(lineForm.product, {'attr': {'class': 'form-select form-select-sm'}}) }}
+    </div>
+
+    <div style="width: 100px;">
+        {{ form_row(lineForm.quantityReceived, {'attr': {'class': 'form-control form-control-sm text-end'}}) }}
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-danger ms-3 remove-line" style="height: 30px;">
+        &times;
+    </button>
+
+</div>

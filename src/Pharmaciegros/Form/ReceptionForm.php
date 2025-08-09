@@ -35,6 +35,7 @@ class ReceptionForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Reception::class,
+
         ]);
     }
 }

@@ -1,4 +1,33 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="card border-0 shadow-sm p-4">
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.payementdate, 'Date de paiement', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.payementdate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.amount, 'Montant', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.payementmethod, 'Mode de paiement', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.payementmethod, {'attr': {'class': 'form-select'}}) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.reference, 'Référence', {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary px-4">Enregistrer</button>
+    </div>
+
+</div>
+
 {{ form_end(form) }}

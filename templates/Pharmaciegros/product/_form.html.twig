@@ -1,4 +1,83 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="card p-3 border-0 shadow-sm">
+
+    {# Ligne 1 : Nom & Code #}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.code, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.code, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 2 : Description #}
+    <div class="mb-3">
+        {{ form_label(form.description, null, {'label_attr': {'class': 'fw-bold'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-sm'} }) }}
+    </div>
+
+    {# Ligne 3 : Unit, Dosage, Form #}
+    <div class="row mb-3">
+        <div class="col-md-4">
+            {{ form_label(form.unit, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.unit, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_label(form.dosage, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.dosage, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_label(form.form, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.form, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 4 : Prix achat & Prix vente #}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.purchaseprice, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.purchaseprice, {'attr': {'class': 'form-control form-control-sm border-success'} }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.saleprice, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.saleprice, {'attr': {'class': 'form-control form-control-sm border-primary'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 5 : Stock min, Batch, Péremption #}
+    <div class="row mb-3">
+        <div class="col-md-4">
+            {{ form_label(form.stockmin, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.stockmin, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_label(form.batch, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.batch, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_label(form.peremption, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.peremption, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 6 : Actif et Catégorie #}
+    <div class="row mb-4">
+        <div class="col-md-4">
+            {{ form_label(form.isactive, null, {'label_attr': {'class': 'fw-bold me-2'}}) }}
+            {{ form_widget(form.isactive, {'attr': {'class': 'form-check-input ms-2'} }) }}
+        </div>
+        <div class="col-md-8">
+            {{ form_label(form.category, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'} }) }}
+        </div>
+    </div>
+
+    {# Bouton #}
+    <div class="text-end">
+        <button class="btn btn-primary btn-sm px-4">Enregistrer</button>
+    </div>
+</div>
 {{ form_end(form) }}

@@ -3,8 +3,50 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app__new_consultation') }}">Consultation</a>
-    <a href="">Examen (analyse)</a>
-    <a href="">Urgence</a>
-    <a href="">Vaccin</a>
+    <div class="container py-4">
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="{{ path('app__new_consultation') }}" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-person-lines-fill fs-2 text-white"></i>
+                    </div>
+                    <div>Consultation</div>
+                </a>
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="#" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-eyedropper fs-2 text-white"></i>
+                    </div>
+                    <div>Examen (analyse)</div>
+                </a>
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="#" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-danger d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-exclamation-triangle-fill fs-2 text-white"></i>
+                    </div>
+                    <div>Urgence</div>
+                </a>
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="#" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-droplet fs-2 text-white"></i>
+                    </div>
+                    <div>Vaccin</div>
+                </a>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
+

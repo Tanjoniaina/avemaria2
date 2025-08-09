@@ -1,4 +1,59 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="card border-0 shadow-sm p-4">
+
+    <div class="mb-3">
+        {{ form_label(form.receiveddate, 'Date de réception', {'label_attr': {'class': 'fw-bold'}}) }}
+        {{ form_widget(form.receiveddate, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.receiveddate) }}
+    </div>
+
+    <fieldset class="mb-4 border rounded p-3">
+        <legend class="fw-bold">Facture associée</legend>
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                {{ form_label(form.invoice.invoicenumber, 'N° Facture', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.invoice.invoicenumber, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+
+            <div class="col-md-3">
+                {{ form_label(form.invoice.invoicedate, 'Date facture', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.invoice.invoicedate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+
+            <div class="col-md-3">
+                {{ form_label(form.invoice.duedate, 'Date échéance', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.invoice.duedate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+
+            <div class="col-md-3">
+                {{ form_label(form.invoice.amount, 'Montant', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_widget(form.invoice.amount, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+
+        </div>
+    </fieldset>
+
+    <fieldset class="mb-4 border rounded p-3">
+        <legend class="fw-bold">Lignes de réception</legend>
+
+        <div id="reception_lines_wrapper"
+             data-prototype="{{ form_widget(form.ligne.vars.prototype)|e('html_attr') }}">
+            {% for lineForm in form.ligne %}
+                {% include 'pharmaciegros/reception/_line.html.twig' with { lineForm: lineForm } %}
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-reception-line" class="btn btn-sm btn-success mt-2">
+            <i class="bi bi-plus-circle"></i> Ajouter une ligne
+        </button>
+    </fieldset>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary px-4">Enregistrer</button>
+    </div>
+
+</div>
+{{ form_rest(form) }}
 {{ form_end(form) }}

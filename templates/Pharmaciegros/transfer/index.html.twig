@@ -3,9 +3,8 @@
 {% block title %}Transfer index{% endblock %}
 
 {% block body %}
-    <h1>Transfer index</h1>
 
-    <table class="table">
+    <table class="table table-striped table-bordered datatable">
         <thead>
             <tr>
                 <th>Id</th>
@@ -36,4 +35,13 @@
     </table>
 
     <a href="{{ path('app_pharmaciegros_entity_transfer_new') }}">Create new</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            initDataTables();
+        });
+    </script>
 {% endblock %}

@@ -1,4 +1,45 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="card p-3 border-0 shadow-sm">
+
+    {# Ligne 1 : Statut & Date #}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.status, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.status, {'attr': {'class': 'form-select form-select-sm'} }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.transfertDate, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.transfertDate, {'attr': {'class': 'form-control form-control-sm'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 2 : Commentaire #}
+    <div class="mb-3">
+        {{ form_label(form.comment, null, {'label_attr': {'class': 'fw-bold'}}) }}
+        {{ form_widget(form.comment, {'attr': {'class': 'form-control form-control-sm'} }) }}
+    </div>
+
+    {# Ligne 3 : Source & Destination #}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ form_label(form.sourceLocation, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.sourceLocation, {'attr': {'class': 'form-select form-select-sm'} }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.destinationLocation, null, {'label_attr': {'class': 'fw-bold'}}) }}
+            {{ form_widget(form.destinationLocation, {'attr': {'class': 'form-select form-select-sm'} }) }}
+        </div>
+    </div>
+
+    {# Ligne 4 : Lignes de transfert #}
+    <div class="mb-4">
+        <h6 class="fw-bold text-muted mb-2">Articles transférés</h6>
+        {{ form_widget(form.ligne) }}
+    </div>
+
+    {# Bouton #}
+    <div class="text-end">
+        <button class="btn btn-primary btn-sm px-4">Enregistrer</button>
+    </div>
+</div>
 {{ form_end(form) }}

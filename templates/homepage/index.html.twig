@@ -3,6 +3,30 @@
 {% block title %}Hello HomepageController!{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_shared_entity_tarifacte_index') }}">Tarif acte</a><br>
-    <a href="{{ path('app_facturation_entity_typeanalyse_index') }}">Tarif analyse</a>
+    <div class="container py-4">
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="{{ path('app_shared_entity_tarifacte_index') }}" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-clipboard-pulse fs-2 text-white"></i>
+                    </div>
+                    <div>Tarif Acte</div>
+                </a>
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 text-center">
+                <a href="{{ path('app_facturation_entity_typeanalyse_index') }}" class="text-decoration-none text-dark">
+                    <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto mb-2"
+                         style="width:80px; height:80px;">
+                        <i class="bi bi-archive fs-2 text-white"></i>
+                    </div>
+                    <div>Tarif Analyse</div>
+                </a>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
+

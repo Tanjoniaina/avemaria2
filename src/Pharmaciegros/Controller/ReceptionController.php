@@ -32,7 +32,6 @@ final class ReceptionController extends AbstractController
     #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository, LocationRepository $locationRepository): Response
     {
-
         $location = $locationRepository->findOneBy(['name'=>'Pharmacie']);
         $reception = new Reception();
         $invoice = new Invoice();
@@ -53,7 +52,6 @@ final class ReceptionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $facture = $form->get('invoice')->getData();
             $facture->setSupplier($purchaseOrder->getSupplier());
             $facture->setStatus('A payer');

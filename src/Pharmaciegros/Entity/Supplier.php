@@ -46,6 +46,7 @@ class Supplier
     {
         $this->purchaseorders = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->isactive = true;
     }
 
     public function getId(): ?int

@@ -3,10 +3,10 @@
 {% block title %}Reception index{% endblock %}
 
 {% block body %}
-    <h1>Bon de commande à traiter</h1>
+    <h3>Bon de commande à traiter</h3>
 
    {% for b in bondecommande %}
-       <a href="{{ path('app_pharmaciegros_entity_reception_new',{'bondecommande': b.id}) }}">{{ b.supplier.name }} {{ b.referencenumber }}</a><br>
+       <a href="{{ path('app_pharmaciegros_entity_reception_new',{'bondecommande': b.id}) }}">{{ b.supplier.name }} {{ b.orderdate | date('d/m/Y') }}</a><br>
     {% endfor %}
 
 {% endblock %}
