@@ -27,15 +27,15 @@ doctrine:
             Accueil:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Accueil/Entity'
+                dir: '%kernel.project_dir%/src/accueil/Entity'
                 prefix: 'App\Accueil\Entity'
-                alias: Accueil
+                alias: accueil
             Blocoperatoire:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Blocoperatoire/Entity'
+                dir: '%kernel.project_dir%/src/blocoperatoire/Entity'
                 prefix: 'App\Blocoperatoire\Entity'
-                alias: Blocoperatoire
+                alias: blocoperatoire
             Consultation:
                 type: attribute
                 is_bundle: false

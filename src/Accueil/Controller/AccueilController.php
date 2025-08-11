@@ -77,7 +77,7 @@ final class AccueilController extends AbstractController
             return $this->redirectToRoute('app_shared_entity_patient_show', ['id'=>$patient->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('Accueil/nouveauconsultation.html.twig', [
+        return $this->render('accueil/nouveauconsultation.html.twig', [
             'patient' => $patient,
             'patients'=> $patients,
             'form' => $form,
