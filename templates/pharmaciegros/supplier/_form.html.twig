@@ -29,6 +29,11 @@
         {{ form_widget(form.isactive) }}
     </div>
 
+    <div class="mb-3">
+        {{ form_label(form.duedate, 'Echéance', {'label_attr': {'class': 'fw-bold me-2'}}) }}
+        {{ form_widget(form.duedate) }} jours
+    </div>
+
     <div class="text-end">
         <button type="submit" class="btn btn-primary px-4">Enregistrer</button>
     </div>

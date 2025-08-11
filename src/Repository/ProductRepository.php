@@ -16,6 +16,26 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function findProduitsSousStockMin(): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.id, p.name, p.stockmin, COALESCE(SUM(
+            CASE 
+                WHEN m.type = :entree THEN m.quantity
+                WHEN m.type = :sortie THEN -m.quantity
+                ELSE 0
+            END
+        ), 0) AS stockActuel')
+            ->leftJoin('p.stockmovement', 'm')
+            ->groupBy('p.id, p.name, p.stockmin')
+            ->having('stockActuel <= p.stockmin')
+            ->setParameter('entree', 'ENTREE')
+            ->setParameter('sortie', 'SORTIE');
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

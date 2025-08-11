@@ -80,6 +80,16 @@ final class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/stockmini', name: 'app_pharmaciegros_stock_min')]
+    public function stockmin(ProductRepository $productRepository): Response
+    {
+        $categories = $productRepository->findProduitsSousStockMin();
+        dd($categories);
+        return $this->render('pharmaciegros/product/stockmini.html.twig', [
+            'categories' => $categories
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_pharmaciegros_entity_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
@@ -116,6 +126,8 @@ final class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_pharmaciegros_entity_product_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 
 
 }

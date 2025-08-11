@@ -17,6 +17,7 @@ class SupplierForm extends AbstractType
             ->add('phone')
             ->add('address')
             ->add('isactive')
+            ->add('duedate')
         ;
     }
 

@@ -10,6 +10,7 @@ use App\Pharmaciegros\Form\ReceptionForm;
 use App\Repository\LocationRepository;
 use App\Repository\PurchaseorderRepository;
 use App\Repository\ReceptionRepository;
+use App\Repository\SupplierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +31,21 @@ final class ReceptionController extends AbstractController
     }
 
     #[Route('/new/{bondecommande}', name: 'app_pharmaciegros_entity_reception_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository, LocationRepository $locationRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, $bondecommande, PurchaseorderRepository $purchaseorderRepository, LocationRepository $locationRepository, SupplierRepository $supplierRepository): Response
     {
         $location = $locationRepository->findOneBy(['name'=>'Pharmacie']);
+        $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
+        $supplier = $purchaseOrder->getSupplier();
         $reception = new Reception();
         $invoice = new Invoice();
+        $date = new \DateTime();
+        $addition = '+'.$supplier->getDuedate().' days';
+        $duedate = $date->modify($addition);
 
         $reception->setReceiveddate(new \DateTime());
-        $purchaseOrder = $purchaseorderRepository->findOneBy(['id'=>$bondecommande]);
+
+        $invoice->setInvoicedate(new \DateTime());
+        $invoice->setDuedate($duedate);
         $invoice->setAmount($purchaseOrder->getTotalamount());
 
         foreach ($purchaseOrder->getLigne() as $poLine) {

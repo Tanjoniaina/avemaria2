@@ -4,10 +4,10 @@ controllers:
         namespace: App\Controller
     type: attribute
 accueil_controllers:
-    resource: '../src/accueil/Controller/'
+    resource: '../src/Accueil/Controller/'
     type: attribute
 blocoperatoire_controllers:
-    resource: '../src/blocoperatoire/Controller/'
+    resource: '../src/Blocoperatoire/Controller/'
     type: attribute
 consultation_controllers:
     resource: '../src/Consultation/Controller/'

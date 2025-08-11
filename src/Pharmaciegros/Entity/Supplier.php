@@ -42,6 +42,9 @@ class Supplier
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'supplier')]
     private Collection $invoices;
 
+    #[ORM\Column]
+    private ?int $duedate = null;
+
     public function __construct()
     {
         $this->purchaseorders = new ArrayCollection();
@@ -170,6 +173,18 @@ class Supplier
                 $invoice->setSupplier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDuedate(): ?int
+    {
+        return $this->duedate;
+    }
+
+    public function setDuedate(int $duedate): static
+    {
+        $this->duedate = $duedate;
 
         return $this;
     }
