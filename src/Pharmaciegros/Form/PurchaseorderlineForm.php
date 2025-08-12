@@ -36,8 +36,6 @@ class PurchaseorderlineForm extends AbstractType
                 'class' => Product::class,
                 'choice_label' => 'name',
                 'autocomplete' => true,
-
-
             ])
         ;
     }

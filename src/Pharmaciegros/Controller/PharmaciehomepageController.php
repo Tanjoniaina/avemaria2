@@ -15,4 +15,14 @@ final class PharmaciehomepageController extends AbstractController
             'controller_name' => 'PharmaciehomepageController',
         ]);
     }
+
+    #[Route('/pharmaciehomepage/dashboard', name: 'app_pharmaciehomepage_dashboard')]
+    public function dashboard(): Response
+    {
+        return $this->render('pharmaciegros/dashboard.html.twig', [
+            'controller_name' => 'PharmaciehomepageController',
+        ]);
+    }
+
+
 }

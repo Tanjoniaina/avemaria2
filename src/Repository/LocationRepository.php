@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Pharmaciegros\Entity\Location;
+use App\Shared\Entity\Location;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

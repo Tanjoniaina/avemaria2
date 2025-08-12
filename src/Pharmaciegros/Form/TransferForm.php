@@ -2,9 +2,8 @@
 
 namespace App\Pharmaciegros\Form;
 
-use App\Pharmaciegros\Entity\Location;
-use App\Pharmaciegros\Entity\Supplier;
 use App\Pharmaciegros\Entity\Transfer;
+use App\Shared\Entity\Location;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

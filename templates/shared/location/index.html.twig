@@ -23,8 +23,8 @@
                 <td>{{ location.code }}</td>
                 <td>{{ location.description }}</td>
                 <td>
-                    <a href="{{ path('app_pharmaciegros_entity_location_show', {'id': location.id}) }}">show</a>
-                    <a href="{{ path('app_pharmaciegros_entity_location_edit', {'id': location.id}) }}">edit</a>
+                    <a href="{{ path('app_shared_entity_location_show', {'id': location.id}) }}">show</a>
+                    <a href="{{ path('app_shared_entity_location_edit', {'id': location.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,6 +35,6 @@
         </tbody>
     </table>
     <div class="btn-purchase">
-    <a href="{{ path('app_pharmaciegros_entity_location_new') }}" class="btn btn-primary">Create New</a>
+    <a href="{{ path('app_shared_entity_location_new') }}" class="btn btn-primary">Create New</a>
     </div>
 {% endblock %}

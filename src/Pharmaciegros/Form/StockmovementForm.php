@@ -6,6 +6,7 @@ use App\Pharmaciegros\Entity\Product;
 use App\Pharmaciegros\Entity\Stockmovement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,11 +17,17 @@ class StockmovementForm extends AbstractType
         $builder
             ->add('movementdate')
             ->add('quantity')
-            ->add('type')
+            ->add('type', ChoiceType::class,[
+                'choices'=>[
+                    'ENTREE' => 'ENTREE',
+                    'SORTIE' => 'SORTIE'
+                ]
+            ])
             ->add('comment')
             ->add('product', EntityType::class, [
                 'class' => Product::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'autocomplete' => true,
             ])
         ;
     }

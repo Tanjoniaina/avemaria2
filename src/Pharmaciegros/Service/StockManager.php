@@ -3,10 +3,10 @@
 namespace App\Pharmaciegros\Service;
 
 use App\Pharmaciegros\Entity\Product;
-use App\Pharmaciegros\Entity\Location;
 use App\Pharmaciegros\Entity\Stockmovement;
 use App\Pharmaciegros\Entity\Transfer;
 use App\Repository\StockmovementRepository;
+use App\Shared\Entity\Location;
 use Doctrine\ORM\EntityManagerInterface;
 
 class StockManager

@@ -19,11 +19,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProductController extends AbstractController
 {
     #[Route(name: 'app_pharmaciegros_entity_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, StockManager $stockManager): Response
+    public function index( CategoryRepository $categoryRepository, LocationRepository $locationRepository, StockManager $stockManager): Response
     {
         $categories = $categoryRepository->findAllWithProducts();
-        $pharmaciedegros = $locationRepository->findOneBy(['name'=>'Pharmacie']);
-
+        $locationname = $this->getUser()->getLocation()->getName();
+        $pharmaciedegros = $locationRepository->findOneBy(['name'=> $locationname]);
         foreach ($categories as $category) {
             foreach ($category->getProducts() as $product) {
                 $stock = $stockManager->getStockActuel($product, $pharmaciedegros);
@@ -83,10 +83,11 @@ final class ProductController extends AbstractController
     #[Route('/stockmini', name: 'app_pharmaciegros_stock_min')]
     public function stockmin(ProductRepository $productRepository): Response
     {
-        $categories = $productRepository->findProduitsSousStockMin();
-        dd($categories);
+        $location = $this->getUser()->getLocation();
+        $product = $productRepository->findBelowMinimumByLocation($location);
+
         return $this->render('pharmaciegros/product/stockmini.html.twig', [
-            'categories' => $categories
+            'products' => $product
         ]);
     }
 

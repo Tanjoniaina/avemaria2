@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Pharmaciegros\Entity;
+namespace App\Shared\Entity;
 
+use App\Entity\User;
+use App\Pharmaciegros\Entity\Stockmovement;
+use App\Pharmaciegros\Entity\Transfer;
 use App\Repository\LocationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,10 +39,17 @@ class Location
     #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'sourceLocation')]
     private Collection $transfers;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'location')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->stockmovement = new ArrayCollection();
         $this->transfers = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,6 +147,36 @@ class Location
             // set the owning side to null (unless already changed)
             if ($transfer->getSourceLocation() === $this) {
                 $transfer->setSourceLocation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getLocation() === $this) {
+                $user->setLocation(null);
             }
         }
 

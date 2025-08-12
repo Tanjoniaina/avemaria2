@@ -2,8 +2,8 @@
 
 namespace App\Pharmaciegros\Entity;
 
-use App\Pharmaciegros\Entity\Location;
 use App\Repository\StockmovementRepository;
+use App\Shared\Entity\Location;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StockmovementRepository::class)]

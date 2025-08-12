@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Pharmaciegros\Form;
+namespace App\Shared\Form;
 
-use App\Pharmaciegros\Entity\Location;
+use App\Shared\Entity\Location;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

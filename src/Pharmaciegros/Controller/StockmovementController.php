@@ -42,6 +42,29 @@ final class StockmovementController extends AbstractController
         ]);
     }
 
+    #[Route('/ajustement', name: 'app_pharmaciegros_entity_stockmovement_ajustement', methods: ['GET', 'POST'])]
+    public function ajustement(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $stockmovement = new Stockmovement();
+        $form = $this->createForm(StockmovementForm::class, $stockmovement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $location = $this->getUser()->getLocation();
+            $stockmovement->setLocation($location);
+            $entityManager->persist($stockmovement);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_pharmaciegros_entity_stockmovement_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('pharmaciegros/stockmovement/new.html.twig', [
+            'stockmovement' => $stockmovement,
+            'form' => $form,
+        ]);
+    }
+
+
     #[Route('/{id}', name: 'app_pharmaciegros_entity_stockmovement_show', methods: ['GET'])]
     public function show(Stockmovement $stockmovement): Response
     {
