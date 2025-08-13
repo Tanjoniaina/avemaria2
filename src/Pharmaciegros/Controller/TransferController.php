@@ -6,6 +6,7 @@ use App\Pharmaciegros\Entity\Stockmovement;
 use App\Pharmaciegros\Entity\Transfer;
 use App\Pharmaciegros\Form\TransferForm;
 use App\Pharmaciegros\Service\StockManager;
+use App\Repository\TransferLineRepository;
 use App\Repository\TransferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -123,10 +124,14 @@ final class TransferController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_pharmaciegros_entity_transfer_show', methods: ['GET'])]
-    public function show(Transfer $transfer): Response
+    public function show(Transfer $transfer, TransferLineRepository $transferlineRepository): Response
     {
+
+        $transferline = $transferlineRepository->findBy(['transfert'=>$transfer]);
+
         return $this->render('pharmaciegros/transfer/show.html.twig', [
             'transfer' => $transfer,
+            'transferline' => $transferline
         ]);
     }
 

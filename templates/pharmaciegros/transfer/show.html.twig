@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ transfer.id }}</td>
-            </tr>
-            <tr>
                 <th>Status</th>
                 <td>{{ transfer.status }}</td>
             </tr>
@@ -25,7 +21,11 @@
             </tr>
         </tbody>
     </table>
-    {# TODO Aseo ilay produit rehetra ho validena #}
+    <h3>Produit</h3>
+    {% for t in transferline %}
+        <p>{{ t.product.name }} : {{  t.quantity }}</p>
+    {% endfor %}
+
     {% if transfer.type == 'TRANSFERT' %}
         <a href="{{ path('transfert_valider',{'id': transfer.id}) }}" class="btn btn-success">Valider</a>
     {% elseif transfer.type == 'REQUEST' %}
